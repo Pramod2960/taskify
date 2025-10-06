@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Livewire;
+
+use App\Models\Learning as ModelsLearning;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
+
+#[Layout('layouts.app')]
+#[Title('Taskify')]
+class Learning extends Component
+{
+    public $tasks;
+    public $search;
+    public $filter_date;
+
+    public $title, $category, $status;
+
+    protected $rules = [
+        'title' => 'required|string',
+        'category' => 'required|string',
+    ];
+
+    public function save()
+    {
+        $validated = $this->validate();
+        try {
+            ModelsLearning::create($validated);
+            session()->flash('message', 'Task created successfully.');
+            $this->reset(['title', 'category']);
+            $this->dispatch('task-saved');
+            $this->redirect(route('learning.show'), navigate: true);
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+    public function render()
+    {
+        try {
+            $query = ModelsLearning::orderByRaw("CASE WHEN status = 'completed' THEN 1 ELSE 0 END ASC")
+                ->orderBy('updated_at', 'desc');
+
+            if (!empty($this->search)) {
+                $query->where(function ($q) {
+                    $q->where('title', 'like', '%' . $this->search . '%')
+                        ->orWhere('body', 'like', '%' . $this->search . '%');
+                });
+            }
+            if (!empty($this->filter_date)) {
+                $filterDate = $this->filter_date;
+                $query->where(function ($q) use ($filterDate) {
+                    $q->where('updated_at', 'like', '%' . $filterDate . '%');
+                });
+            }
+
+            $this->tasks = $query->get();
+            return view('livewire.learning', [
+                'tasks' => $this->tasks,
+            ]);
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+}

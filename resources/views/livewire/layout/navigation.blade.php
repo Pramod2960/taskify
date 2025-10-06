@@ -43,6 +43,11 @@ new class extends Component {
                         Create Task
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('learning.show')" :active="request()->routeIs('learning.show')" wire:navigate.hover>
+                        Learning
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
