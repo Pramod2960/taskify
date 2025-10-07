@@ -21,6 +21,19 @@ class Learning extends Component
         'title' => 'required|string',
         'category' => 'required|string',
     ];
+    
+    public function markAsComplete($id)
+    {
+        if ($id == null)
+            return;
+        try {
+            $task = ModelsLearning::find($id);
+            $task->update(['status' => "completed"]);
+            // $this->refresh();
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
 
     public function save()
     {
@@ -30,7 +43,9 @@ class Learning extends Component
             session()->flash('message', 'Task created successfully.');
             $this->reset(['title', 'category']);
             $this->dispatch('task-saved');
-            $this->redirect(route('learning.show'), navigate: true);
+            
+            // $this->redirect(route('learning.show'), navigate: true);
+
         } catch (\Throwable $th) {
             dd($th);
         }

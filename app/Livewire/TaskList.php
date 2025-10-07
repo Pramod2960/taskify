@@ -20,16 +20,21 @@ class TaskList extends Component
 
     public function clearFilter()
     {
-        $this->search=null;
-        $this->filter_date=null;
-
+        $this->search = null;
+        $this->filter_date = null;
     }
 
     public function render()
     {
         try {
             $query = Task::with(['project', 'assigner'])
-                ->orderByRaw("CASE WHEN status = 'completed' THEN 1 ELSE 0 END ASC")
+                ->orderByRaw("
+                CASE 
+                    WHEN status = 'watching' THEN 1
+                    WHEN status = 'completed' THEN 2
+                    ELSE 0
+                    END ASC
+                ")
                 ->orderBy('updated_at', 'desc');
 
             if (!empty($this->search)) {

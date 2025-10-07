@@ -46,19 +46,31 @@
                         <td class="px-4 py-2 border text-center">{{ $index + 1 }}</td>
                         <td class="px-4 py-2 border">
                             <a href="{{ route('task.show', $task->id) }}" wire:navigate
-                                class="{{ $task->status === 'completed' ? 'text-gray-500 hover:underline' : 'text-blue-600 hover:underline' }}">
+                                class="{{ in_array($task->status, ['completed', 'watching'])
+                                    ? 'text-gray-500 hover:underline'
+                                    : 'text-blue-600 hover:underline' }}">
                                 {{ $task->title }}
                             </a>
                         </td>
                         <td class="px-4 py-1 border text-center text-sm">
                             <span
-                                class=" 
-            inline-block px-2 py-1 text-xs font-semibold  rounded-full uppercase
-            @if (strtolower($task->status) === 'new') text-yellow-500  bg-yellow-100 
-            @elseif(strtolower($task->status) === 'completed') text-green-700 bg-green-100 opacity-60
-            @elseif(strtolower($task->status) === 'overdue') text-red-700
-            @else text-blue-600 bg-blue-100 @endif
-        ">
+                                class="
+        inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full uppercase
+        @if (strtolower($task->status) === 'new') text-yellow-500 bg-yellow-100
+        @elseif(strtolower($task->status) === 'watching') text-purple-700 bg-purple-100 opacity-70
+        @elseif(strtolower($task->status) === 'completed') text-gray-700 bg-gray-100 opacity-60
+        @elseif(strtolower($task->status) === 'overdue') text-red-700
+        @else text-blue-600 bg-blue-100 @endif
+    ">
+                                @if (strtolower($task->status) === 'watching')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                @endif
                                 {{ $task->status ?? '—' }}
                             </span>
                         </td>
@@ -66,18 +78,17 @@
                             <span
                                 class=" p-2 inline-block px-2 py-1 text-xs font-semibold  rounded-full uppercase
         @php $name = strtolower($task->project->name ?? ''); @endphp
-        @if ($name === 'migrator') text-purple-400
-        @elseif ($name === 'seco')
-            text-green-700
-        @elseif ($name === 'cxp_crm')
-            text-red-700
-        @else
-            text-blue-600 bg-blue-100 @endif
+        @if ($task->status === 'completed') text-gray-500
+        @elseif ($name === 'migrator') text-rose-300
+        @elseif ($name === 'seco') text-green-700
+        @elseif ($name === 'cxp_crm')text-red-700
+        @else text-blue-600 bg-blue-100 @endif
     ">
                                 {{ $task->project->name ?? '—' }}
                             </span>
                         </td>
-                        <td class="px-4 py-2 border">{{ $task->assigner->name ?? '—' }}</td>
+                        <td class="px-4 py-2 border {{ $task->status === 'completed' ? 'text-gray-500' : '' }}">
+                            {{ $task->assigner->name ?? '—' }}</td>
                         <td class="px-4 py-2 border"> {{ \Carbon\Carbon::parse($task->start_date)->format('d M') }}
                         </td>
                         <td class="px-4 py-2 border">
