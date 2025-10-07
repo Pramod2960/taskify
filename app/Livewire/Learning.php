@@ -2,16 +2,19 @@
 
 namespace App\Livewire;
 
-use App\Models\Learning as ModelsLearning;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
+use App\Models\Learning as ModelsLearning;
+use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
 #[Title('Taskify')]
 class Learning extends Component
 {
-    public $tasks;
+    use WithPagination;
+
+    // public $tasks;
     public $search;
     public $filter_date;
 
@@ -29,7 +32,6 @@ class Learning extends Component
         try {
             $task = ModelsLearning::find($id);
             $task->update(['status' => "completed"]);
-            // $this->refresh();
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -70,9 +72,10 @@ class Learning extends Component
                 });
             }
 
-            $this->tasks = $query->get();
+            $tasks = $query->paginate(8);
+            // dd($tasks);
             return view('livewire.learning', [
-                'tasks' => $this->tasks,
+                'tasks' => $tasks,
             ]);
         } catch (\Throwable $th) {
             dd($th);
