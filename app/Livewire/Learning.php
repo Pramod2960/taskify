@@ -57,9 +57,9 @@ class Learning extends Component
         $validated = $this->validate();
         try {
             ModelsLearning::create($validated);
-            session()->flash('message', 'Task created successfully.');
             $this->reset(['title', 'category']);
             $this->showModal = false;
+            $this->showToast("Task created successfully! sdadasdsa dasdsa das dsad", "success");
         } catch (\Throwable $th) {
             dd($th);
         }
