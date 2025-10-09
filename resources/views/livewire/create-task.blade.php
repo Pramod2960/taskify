@@ -16,8 +16,19 @@
 
         <div class="mb-4">
             <label class="block text-sm font-medium mb-1">Body</label>
-            <textarea wire:model="body" rows="9" class="w-full border rounded px-3 py-2 text-sm"></textarea>
-            @error('body')
+            {{-- <textarea wire:model="body" rows="9" class="w-full border rounded px-3 py-2 text-sm"></textarea> --}}
+          
+
+            {{-- <div class="col-md-12 mb-3">
+                <input id="nl" type="hidden" name="nl" value="{{ $nl }}" wire:model="nl" />
+                <trix-editor input="nl" x-data x-on:blur="@this.setLangContent($event.target.value, 'nl')">
+                </trix-editor>
+            </div> --}}
+            <div class="h-48 mb-10">
+                <input id="x" type="hidden" wire:model='body' name="content" value="{{ old('content', $content ?? '') }}">
+                <trix-editor input="x" class="h-44"    x-on:blur="@this.setBodyContent($event.target.value, 'nl')" ></trix-editor>
+            </div>
+              @error('body')
                 <span class="text-red-600 text-sm">{{ $message }}</span>
             @enderror
         </div>
@@ -71,4 +82,5 @@
         </button>
 
     </form>
+
 </div>

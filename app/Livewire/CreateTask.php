@@ -50,6 +50,9 @@ class CreateTask extends Component
         }
     }
 
+    public function setBodyContent($value){
+        $this->body= $value;
+    }
     public function render()
     {
         return view('livewire.create-task');

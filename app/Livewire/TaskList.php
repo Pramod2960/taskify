@@ -2,26 +2,34 @@
 
 namespace App\Livewire;
 
+use App\Models\Project;
 use Livewire\Component;
 use App\Models\Task;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
+use Livewire\WithPagination;
 
-#[Layout('layouts.app')]
 #[Title('Taskify')]
+#[Layout('layouts.app')]
 class TaskList extends Component
 {
-    public $tasks;
-    public $filter_date;
+    use WithPagination;
+    public $projects = [];
+    public $filter_date, $filter_project;
     public $search;
 
 
-    public function mount() {}
+    public function mount()
+    {
+        $this->projects = Project::all();
+    }
 
     public function clearFilter()
     {
         $this->search = null;
         $this->filter_date = null;
+        $this->filter_project = null;
     }
 
     public function render()
@@ -30,8 +38,10 @@ class TaskList extends Component
             $query = Task::with(['project', 'assigner'])
                 ->orderByRaw("
                 CASE 
-                    WHEN status = 'watching' THEN 1
-                    WHEN status = 'completed' THEN 2
+                    WHEN status = 'new'         THEN 1
+                    WHEN status = 'pending'     THEN 2
+                    WHEN status = 'watching'    THEN 3
+                    WHEN status = 'completed'   THEN 4
                     ELSE 0
                     END ASC
                 ")
@@ -56,10 +66,19 @@ class TaskList extends Component
                     $q->where('updated_at', 'like', '%' . $filterDate . '%');
                 });
             }
+            Log::info($this->filter_project);
+            if (!empty($this->filter_project)) {
+                Log::info($this->filter_project);
+                //    dd($this->filter_project);
+                $filter_project = $this->filter_project;
+                $query->where(function ($q) use ($filter_project) {
+                    $q->where('project_id', 'like', '%' . $filter_project . '%');
+                });
+            }
 
-            $this->tasks = $query->get();
+            $tasks = $query->paginate(20);
             return view('livewire.task-list', [
-                'tasks' => $this->tasks,
+                'tasks' => $tasks,
             ]);
         } catch (\Throwable $th) {
             dd($th);

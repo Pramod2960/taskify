@@ -2,10 +2,12 @@
     @if ($task)
         <form wire:submit.prevent="save" class="text-sm">
             <div class="mb-4">
+
                 <div class="flex gap-5 pb-1 justify-between">
-                    <div>
-                        <label class="block text-sm font-medium mb-1 opacity-50 uppercase">Title</label>
-                    </div>
+                    <button wire:click="back"
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-md border border-blue-200 hover:bg-blue-100 hover:text-blue-700 transition-all duration-200">
+                        ← Back
+                    </button>
                     <div>
                         @if (session()->has('message'))
                             <span
@@ -39,20 +41,22 @@
             </div>
 
             <div class="mb-4">
-                <div class=" flex justify-between"> 
-                    <label class="block text-sm font-medium mb-1 opacity-50 uppercase">Task
-                    </label>
+                <div class=" flex justify-between">
+                    {{-- <label class="block text-sm font-medium mb-1 opacity-50 uppercase">Task
+                    </label> --}}
                     <div class="flex gap-2 ">
                         <span>
-                             Total words:
+                            Total words:
                         </span>
                         <h1 x-text="$wire.body.length"></h1>
                     </div>
                 </div>
 
-                <textarea wire:model="body" rows="12" class="w-full rounded px-3 py-2 text-sm border"
-                    wire:dirty.class="border-red-500" wire:dirty.class.remove="border-gray-300"></textarea>
-
+                <div class="h-48 mb-10">
+                    <input id="x" type="hidden" wire:model="body" value="{{ $task->body }}" name="body">
+                    <trix-editor input="x" class="h-44" x-on:blur="$wire.set('body', $event.target.value)">
+                    </trix-editor>
+                </div>
                 @error('body')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
@@ -70,7 +74,7 @@
                     class="bg-slate-400 text-white px-4 py-2 rounded">
                     Mark as Pending
                 </button>
-                 <button type="button" wire:click="markComplete('watching')"
+                <button type="button" wire:click="markComplete('watching')"
                     class="bg-slate-400 text-white px-4 py-2 rounded">
                     Mark as Watching
                 </button>

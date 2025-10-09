@@ -3,10 +3,20 @@
         <div>
             <h2 class="text-xl font-semibold ">All Tasks</h2>
         </div>
-        <div class=" flex gap-2">
+        <div class=" flex gap-2 ">
             <div>
                 <input wire:model.live.debounce.300ms="search" placeholder="Search by Title "
                     class=" rounded-lg p-1 px-2 text-sm" />
+            </div>
+            <div>
+                <label for="filterDate" class="mr-2 font-medium">Filter Projects:</label>
+                <select class="border rounded px-5 py-1  focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    wire:model.live="filter_project">
+                    <option value="">Projects</option>
+                    @foreach ($projects as $project)
+                        <option value="{{ $project->id }}">{{ $project->name }}</option>
+                    @endforeach
+                </select>
             </div>
             <div>
                 <label for="filterDate" class="mr-2 font-medium">Filter by date:</label>
@@ -28,6 +38,9 @@
 
 
     <div class="overflow-x-auto">
+        <div class="mb-4 text-white">
+            {{ $tasks->links() }}
+        </div>
         <table class="min-w-full border border-gray-200 table-auto">
             <thead class="bg-gray-100">
                 <tr>

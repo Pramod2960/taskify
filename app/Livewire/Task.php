@@ -23,9 +23,7 @@ class Task extends Component
     {
         $this->task = $task;
         try {
-            $this->fill(
-                $task->only('title', 'body'),
-            );
+            $this->fill($task->only('title', 'body'));
             $this->id = $task->id;
         } catch (\Throwable $th) {
             dd($th);
@@ -47,8 +45,6 @@ class Task extends Component
         }
     }
 
-
-
     public function markComplete($statusType)
     {
         if ($this->id == null)
@@ -60,6 +56,15 @@ class Task extends Component
         } catch (\Throwable $th) {
             dd($th);
         }
+    }
+
+    public function back()
+    {
+        $this->task->body = $this->body;
+        $dirty = $this->task->isDirty('title', 'body');
+        if ($dirty)
+            $this->save();
+        $this->redirect(route('task.list'), navigate: true);
     }
 
     public function render()

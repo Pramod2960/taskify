@@ -18,6 +18,7 @@ class Dashboard extends Component
         $this->completed = Task::where('status', 'completed')->count();
         $this->watching = Task::where('status', 'watching')->count();
         $this->newCount = Task::where('status', 'new')->count();
+        $this->newCount = Task::where('status', 'pending')->count();
     }
 
     public function render()
