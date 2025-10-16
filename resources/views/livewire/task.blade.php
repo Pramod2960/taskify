@@ -33,8 +33,6 @@
                 </div>
                 <input type="text" value="{{ $task->title }}" wire:model="title"
                     class=" w-full rounded px-3 py-2 text-sm font-semibold  {{ $isEdit ? 'border-' : 'border-none' }}">
-
-
                 @error('title')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
@@ -52,9 +50,10 @@
                     </div>
                 </div>
 
-                <div class="h-48 mb-10">
+                <div class="h-48 mb-10 overflow-scroll" wire:ignore>
                     <input id="x" type="hidden" wire:model="body" value="{{ $task->body }}" name="body">
-                    <trix-editor input="x" class="h-44" x-on:blur="$wire.set('body', $event.target.value)">
+                    <trix-editor input="x" class="h-44 border-none"
+                        x-on:trix-change="$wire.body = $event.target.value">
                     </trix-editor>
                 </div>
                 @error('body')
@@ -63,11 +62,12 @@
             </div>
             <div class="flex gap-2">
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-                    <span wire:loading>Saving...</span>
-                    <span wire:loading.remove>Save</span>
+                    <span wire:loading.delay>Saving...</span>
+                    <span wire:loading.remove.delay>Save</span>
                 </button>
                 <button type="button" wire:click="markComplete('completed')"
-                    class="bg-green-200 text-black px-4 py-2 rounded">
+                    class="bg-green-200 text-black px-4 py-2 rounded"
+                    wire:confirm="Are you sure you want to mark this as completed?">
                     Mark as completed
                 </button>
                 <button type="button" wire:click="markComplete('pending')"
@@ -78,6 +78,11 @@
                     class="bg-slate-400 text-white px-4 py-2 rounded">
                     Mark as Watching
                 </button>
+                <button type="button" wire:click="markDelete({{ $task->id }})"
+                    wire:confirm="Are you sure you want to delete this post?"
+                    class=" text-white px-4 py-2 rounded">
+                    <img src="{{ asset('icons/trash-2.svg') }}" alt="trash" class="w-4 h-4 fill-rose-500">
+                </button>
             </div>
 
         </form>
@@ -85,3 +90,5 @@
         <p class="text-gray-500">Task not found.</p>
     @endif
 </div>
+
+

@@ -19,7 +19,6 @@ class TaskList extends Component
     public $filter_date, $filter_project;
     public $search;
 
-
     public function mount()
     {
         $this->projects = Project::all();

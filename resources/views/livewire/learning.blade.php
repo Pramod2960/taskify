@@ -9,7 +9,7 @@
             <button wire:click="clearFilter" class="bg-slate-300 text-black px-4 py-1 rounded">
                 Clear Filter
             </button>
-            <button wire:click="addNewTask" class="bg-blue-600 text-white px-4 py-1 rounded">
+            <button x-on:click="$wire.showModal = true" class="bg-blue-600 text-white px-4 py-1 rounded">
                 Add New Task
             </button>
         </div>
@@ -84,45 +84,48 @@
     </div>
 
     <!-- Modal -->
-    @if ($showModal)
-        <div x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-            @click.self="$wire.set('showModal', false)">
-            <div class="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative">
-                <button class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl font-bold">&times;</button>
+    {{-- @if ($showModal) --}}
+        <div wire:show="showModal" > 
+            <div x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                >
+                <div class="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative" >
+                    <button
+                        class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl font-bold" wire:click="$set('showModal',false)">&times;</button>
 
-                <h2 class="text-lg font-semibold mb-4">Add New Task</h2>
+                    <h2 class="text-lg font-semibold mb-4">Add New Task</h2>
 
-                <form wire:submit.prevent="save" class="space-y-4 text-sm">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Title</label>
-                        <textarea wire:model.defer="title" rows="3" class="w-full border rounded px-3 py-2"></textarea>
-                        @error('title')
-                            <span class="text-red-600 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <form wire:submit.prevent="save" class="space-y-4 text-sm">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Title</label>
+                            <textarea wire:model.defer="title" rows="3" class="w-full border rounded px-3 py-2"></textarea>
+                            @error('title')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Category</label>
-                        <input type="text" wire:model.defer="category" class="w-full border rounded px-3 py-2">
-                        @error('category')
-                            <span class="text-red-600 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Category</label>
+                            <input type="text" wire:model.defer="category" class="w-full border rounded px-3 py-2">
+                            @error('category')
+                                <span class="text-red-600 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                    <div class="flex justify-end">
-                        <button type="button" wire:click="$set('showModal', false)"
-                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">
-                            Cancel
-                        </button>
-                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-                            <span wire:loading wire:target="save">Saving...</span>
-                            <span wire:loading.remove wire:target="save">Save</span>
-                        </button>
-                    </div>
-                </form>
+                        <div class="flex justify-end">
+                            <button type="button" wire:click="handleCancle"
+                                class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">
+                                Cancel
+                            </button>
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+                                <span wire:loading wire:target="save">Saving...</span>
+                                <span wire:loading.remove wire:target="save">Save</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    @endif
+    {{-- @endif --}}
 
     @include('livewire.components.toast');
 
@@ -131,8 +134,7 @@
             $js('copy', (data) => {
                 const textToCopy = data;
                 navigator.clipboard.writeText(textToCopy)
-                    .then(() => {
-                    })
+                    .then(() => {})
                     .catch(err => {
                         console.error('Failed to copy text: ', err);
                         alert('Failed to copy text.');
@@ -141,3 +143,4 @@
         </script>
     @endscript
 </div>
+

@@ -59,17 +59,22 @@
                         <td class="px-4 py-2 border text-center">{{ $index + 1 }}</td>
                         <td class="px-4 py-2 border">
                             <a href="{{ route('task.show', $task->id) }}" wire:navigate
-                                class="{{ in_array($task->status, ['completed', 'watching'])
-                                    ? 'text-gray-500 hover:underline'
-                                    : 'text-blue-600 hover:underline' }}">
+                                class="
+       @if ($task->status === 'completed') text-gray-500 hover:underline
+       @elseif($task->status === 'watching')
+           text-purple-600 hover:underline
+       @else
+           text-blue-600 hover:underline @endif
+   ">
                                 {{ $task->title }}
                             </a>
+
                         </td>
                         <td class="px-4 py-1 border text-center text-sm">
                             <span
                                 class="
         inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full uppercase
-        @if (strtolower($task->status) === 'new') text-yellow-500 bg-yellow-100
+        @if (strtolower($task->status) === 'new') text-rose-500 bg-rose-100
         @elseif(strtolower($task->status) === 'watching') text-purple-700 bg-purple-100 opacity-70
         @elseif(strtolower($task->status) === 'completed') text-gray-700 bg-gray-100 opacity-60
         @elseif(strtolower($task->status) === 'overdue') text-red-700
@@ -95,7 +100,7 @@
         @elseif ($name === 'migrator') text-rose-300
         @elseif ($name === 'seco') text-green-700
         @elseif ($name === 'cxp_crm')text-red-700
-        @else text-blue-600 bg-blue-100 @endif
+        @else text-blue-500 @endif
     ">
                                 {{ $task->project->name ?? '—' }}
                             </span>

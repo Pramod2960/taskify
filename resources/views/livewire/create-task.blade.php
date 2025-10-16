@@ -24,9 +24,9 @@
                 <trix-editor input="nl" x-data x-on:blur="@this.setLangContent($event.target.value, 'nl')">
                 </trix-editor>
             </div> --}}
-            <div class="h-48 mb-10">
-                <input id="x" type="hidden" wire:model='body' name="content" value="{{ old('content', $content ?? '') }}">
-                <trix-editor input="x" class="h-44"    x-on:blur="@this.setBodyContent($event.target.value, 'nl')" ></trix-editor>
+            <div class="h-48 mb-10" wire:ignore>
+                <input id="x" type="hidden" wire:model='body' name="body" value="{{ old('content', $content ?? '') }}">
+                <trix-editor input="x" class="h-44"   x-on:trix-change="$wire.body = $event.target.value" ></trix-editor>
             </div>
               @error('body')
                 <span class="text-red-600 text-sm">{{ $message }}</span>

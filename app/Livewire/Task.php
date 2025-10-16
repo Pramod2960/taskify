@@ -60,11 +60,27 @@ class Task extends Component
 
     public function back()
     {
-        $this->task->body = $this->body;
-        $dirty = $this->task->isDirty('title', 'body');
-        if ($dirty)
-            $this->save();
-        $this->redirect(route('task.list'), navigate: true);
+        try {
+            $this->task->body = $this->body;
+            $dirty = $this->task->isDirty('title', 'body');
+            if ($dirty)
+                $this->save();
+
+            $this->redirect(route('task.list'), navigate: true);
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+    public function markDelete(ModelsTask $task)
+    {
+        try {
+            // $this->authorize('delete', $task);
+            $task->delete();
+            $this->redirect(route('task.list'), navigate: true);
+        } catch (\Throwable $th) {
+            dd($th);
+        }
     }
 
     public function render()
@@ -72,3 +88,4 @@ class Task extends Component
         return view('livewire.task');
     }
 }
+

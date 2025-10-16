@@ -92,6 +92,13 @@ class Learning extends Component
         $this->search = "";
     }
 
+    public function handleCancle()
+    {
+        $this->title = "";
+        $this->category = "";
+        $this->showModal = false;
+    }
+
     public function render()
     {
         try {

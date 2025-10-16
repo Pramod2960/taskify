@@ -19,14 +19,15 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::middleware('auth')->name('task.')->group(function () {
+Route::name('task.')->group(function () {
     Route::get('/create-task', CreateTask::class)->name('create');
     Route::get('/tasks', TaskList::class)->name('list');
     Route::get('/task/{task}', Task::class)->name('show');
 });
 
-Route::middleware('auth')->name('learning.')->group(function () {
+Route::name('learning.')->group(function () {
     Route::get('/learning', Learning::class)->name('show');
-});
+    });
 
 require __DIR__ . '/auth.php';
+    
