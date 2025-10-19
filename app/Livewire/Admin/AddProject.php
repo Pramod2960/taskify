@@ -13,6 +13,7 @@ use Livewire\Attributes\Validate;
 class AddProject extends Component
 {
 
+    #[Validate('min:3', message: 'size must be min 3 char long')]
     #[Validate('required', message: 'Project Name is requeried')]
     public $name;
 
@@ -27,7 +28,6 @@ class AddProject extends Component
             ]);
             $this->reset(['name']);
             $this->showToast("Project created successfully!", "success");
-
         } catch (\Throwable $th) {
             dd($th);
         }
