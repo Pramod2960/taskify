@@ -13,14 +13,14 @@ use Livewire\Component;
 #[Title('Taskify')]
 class CreateTask extends Component
 {
-    public $title;
     public $body;
-    public $project_id;
-    public $start_date;
-    public $completion_date;
+    public $title;
     public $projects;
     public $assigners;
+    public $project_id;
+    public $start_date;
     public $assigner_id;
+    public $completion_date;
 
     public function mount()
     {

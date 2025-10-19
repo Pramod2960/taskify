@@ -13,7 +13,6 @@ new class extends Component {
 
         $this->redirect('/', navigate: true);
     }
-    
 }; ?>
 
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
@@ -39,16 +38,28 @@ new class extends Component {
                         Tasks
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('task.create')" :active="request()->routeIs('task.create')" wire:navigate.hover>
-                        Create Task
-                    </x-nav-link>
-                </div>
+                @can('edit articles')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('task.create')" :active="request()->routeIs('task.create')" wire:navigate.hover>
+                            Create Task
+                        </x-nav-link>
+                    </div>
+                @endcan
+
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('learning.show')" :active="request()->routeIs('learning.show')" wire:navigate.hover>
                         Learning
                     </x-nav-link>
                 </div>
+
+                @can('Super-Admin')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('project.create')" :active="request()->routeIs('project.create')" wire:navigate.hover>
+                            Add Project
+                        </x-nav-link>
+                    </div>
+                @endcan
+
             </div>
 
             <!-- Settings Dropdown -->

@@ -1,4 +1,4 @@
-<div class="w-full px-10 h-screen p-6 bg-white rounded text-sm mt-2">
+<div class="w-full px-10 h-screen p-6 bg-white rounded text-sm mt-2 mb-10">
     <div class="flex justify-between items-center mb-2">
         <div>
             <h2 class="text-xl font-semibold ">All Tasks</h2>
@@ -41,7 +41,7 @@
         <div class="mb-4 text-white">
             {{ $tasks->links() }}
         </div>
-        <table class="min-w-full border border-gray-200 table-auto">
+        <table class="min-w-full border border-gray-200 table-auto mb-10" >
             <thead class="bg-gray-100">
                 <tr>
                     <th class="px-4 py-2 border">#</th>

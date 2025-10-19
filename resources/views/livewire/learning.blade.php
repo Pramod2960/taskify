@@ -127,7 +127,7 @@
         </div>
     {{-- @endif --}}
 
-    @include('livewire.components.toast');
+    @include('livewire.components.toast')
 
     @script
         <script>

@@ -1,17 +1,14 @@
 <?php
 
-use App\Livewire\CreateTask;
-use App\Livewire\Dashboard;
-use App\Livewire\Learning;
 use App\Livewire\Task;
+use App\Livewire\Learning;
 use App\Livewire\TaskList;
+use App\Livewire\Dashboard;
+use App\Livewire\CreateTask;
+use App\Livewire\Admin\AddProject;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
-
-// Route::view('dashboard', 'dashboard')
-//     ->middleware(['auth', 'verified'])
-//     ->name('dashboard');
 
 Route::get('dashboard', Dashboard::class)->middleware('auth')->name('dashboard');
 
@@ -25,9 +22,12 @@ Route::name('task.')->group(function () {
     Route::get('/task/{task}', Task::class)->name('show');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/add-project', AddProject::class)->name('project.create');
+});
+
 Route::name('learning.')->group(function () {
     Route::get('/learning', Learning::class)->name('show');
-    });
+});
 
 require __DIR__ . '/auth.php';
-    
