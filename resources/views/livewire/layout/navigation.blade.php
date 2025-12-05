@@ -60,6 +60,14 @@ new class extends Component {
                     </div>
                 @endcan
 
+                @can('Super-Admin')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('form-builder')" :active="request()->routeIs('form-builder')" wire:navigate.hover>
+                            Form Builder
+                        </x-nav-link>
+                    </div>
+                @endcan
+
             </div>
 
             <!-- Settings Dropdown -->

@@ -5,30 +5,33 @@
 
                 <div class="flex gap-5 pb-1 justify-between">
                     <button wire:click="back"
-                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-md border border-blue-200 hover:bg-blue-100 hover:text-blue-700 transition-all duration-200">
+                        class="inline-flex items-center px-4 py-1 text-sm font-medium text-blue-600 bg-blue-50 rounded-md border border-blue-200 hover:bg-blue-100 hover:text-blue-700 transition-all duration-200">
                         ← Back
                     </button>
-                    <div>
-                        @if (session()->has('message'))
-                            <span
-                                class="inline-block px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full uppercase">
-                                {{ session('message') }}
+                    <div class="">
+
+                        <div class="flex gap-5">
+                            <span>
+                                @if (session()->has('message'))
+                                    <span
+                                        class="inline-block px-2 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full uppercase">
+                                        {{ session('message') }}
+                                    </span>
+                                @endif
                             </span>
-                        @endif
-                    </div>
-                    <div class="flex gap-5">
-                        <span
-                            class="inline-block px-2 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded-full uppercase">
-                            {{ $task->project->name }}
-                        </span>
-                        <span
-                            class="inline-block px-2 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full uppercase">
-                            {{ $task->assigner->name }}
-                        </span>
-                        <span
-                            class="inline-block px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full uppercase">
-                            {{ \Carbon\Carbon::parse($task->start_date)->format('d M') }}
-                        </span>
+                            <span
+                                class="inline-block px-2 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded-full uppercase">
+                                {{ $task->project->name }}
+                            </span>
+                            <span
+                                class="inline-block px-2 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full uppercase">
+                                {{ $task->assigner->name }}
+                            </span>
+                            <span
+                                class="inline-block px-2 py-1 text-xs font-semibold text-gray-700 bg-gray-200 rounded-full uppercase">
+                                {{ \Carbon\Carbon::parse($task->start_date)->format('d M') }}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <input type="text" value="{{ $task->title }}" wire:model="title"
@@ -38,10 +41,19 @@
                 @enderror
             </div>
 
+            {{-- <div class="mb-10 " wire:ignore>
+                <label class="block text-sm font-medium mb-1 opacity-50 uppercase">REQUIRNMENT
+                </label>
+                <textarea id="x-1" type="text" class="w-full border-none text-sm " wire:model="requirment" cols="10"
+                    readonly disabled value="{{!! $task->requirment !!}}" name="requirment">
+            </textarea> --}}
+
+            {{-- </div> --}}
+
             <div class="mb-4">
                 <div class=" flex justify-between">
-                    {{-- <label class="block text-sm font-medium mb-1 opacity-50 uppercase">Task
-                    </label> --}}
+                    <label class="block text-sm font-medium mb-1 opacity-50 uppercase">Task
+                    </label>
                     <div class="flex gap-2 ">
                         <span>
                             Total words:
@@ -50,12 +62,18 @@
                     </div>
                 </div>
 
-                <div class="h-48 mb-10 overflow-scroll" wire:ignore>
-                    <input id="x" type="hidden" wire:model="body" value="{{ $task->body }}" name="body">
-                    <trix-editor input="x" class="h-44 border-none"
-                        x-on:trix-change="$wire.body = $event.target.value">
-                    </trix-editor>
+                <div>
+
+                    <div class="h-72 mb-10 " wire:ignore>
+                        <input id="x" type="hidden" wire:model="body" value="{{ $task->body }}"
+                            name="body">
+                        <trix-editor input="x" class="h-72  overflow-scroll"
+                            x-on:trix-change="$wire.body = $event.target.value">
+                        </trix-editor>
+                    </div>
                 </div>
+
+
                 @error('body')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
@@ -79,8 +97,7 @@
                     Mark as Watching
                 </button>
                 <button type="button" wire:click="markDelete({{ $task->id }})"
-                    wire:confirm="Are you sure you want to delete this post?"
-                    class=" text-white px-4 py-2 rounded">
+                    wire:confirm="Are you sure you want to delete this post?" class=" text-white px-4 py-2 rounded">
                     <img src="{{ asset('icons/trash-2.svg') }}" alt="trash" class="w-4 h-4 fill-rose-500">
                 </button>
             </div>
@@ -90,5 +107,3 @@
         <p class="text-gray-500">Task not found.</p>
     @endif
 </div>
-
-

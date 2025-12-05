@@ -49,7 +49,7 @@
                     <th class="px-4 py-2 border">Status</th>
                     <th class="px-4 py-2 border">Project</th>
                     <th class="px-4 py-2 border">Assigner</th>
-                    <th class="px-4 py-2 border">Start </th>
+                    <th class="px-4 py-2 border min-w-20">Start </th>
                     <th class="px-4 py-2 border">Completion </th>
                 </tr>
             </thead>

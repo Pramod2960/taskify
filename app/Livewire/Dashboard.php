@@ -11,14 +11,14 @@ use Livewire\Attributes\Layout;
 #[Title('Taskify')]
 class Dashboard extends Component
 {
-    public $watching, $completed, $newCount;
+    public $watching, $completed, $newCount, $pendingTask;
 
     public function mount()
     {
         $this->completed = Task::where('status', 'completed')->count();
         $this->watching = Task::where('status', 'watching')->count();
         $this->newCount = Task::where('status', 'new')->count();
-        $this->newCount = Task::where('status', 'pending')->count();
+        $this->pendingTask = Task::where('status', 'pending')->count();
     }
 
     public function render()

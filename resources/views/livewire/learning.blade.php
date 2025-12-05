@@ -26,7 +26,7 @@
                     <th class="px-4 py-2 border">Title</th>
                     <th class="px-4 py-2 border">Status</th>
                     <th class="px-4 py-2 border">Category</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="px-4 py-2 border min-w-[180px]">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                         <td class="px-4 py-2 border text-center flex justify-between">
                             <div>
                                 <a wire:click="linkClick({{ $task->id }})"
-                                    class="{{ $task->status === 'completed' ? 'text-gray-500 hover:underline' : 'text-blue-600 hover:underline' }}">
+                                    class="no-underline hover:underline {{ $task->status === 'completed' ? 'text-gray-500' : 'text-blue-600' }}">
                                     {{ $task->title }}
                                 </a>
                             </div>
@@ -80,51 +80,49 @@
             </tbody>
         </table>
 
-
     </div>
 
     <!-- Modal -->
     {{-- @if ($showModal) --}}
-        <div wire:show="showModal" > 
-            <div x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-                >
-                <div class="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative" >
-                    <button
-                        class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl font-bold" wire:click="$set('showModal',false)">&times;</button>
+    <div wire:show="showModal">
+        <div x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div class="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative">
+                <button class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl font-bold"
+                    wire:click="$set('showModal',false)">&times;</button>
 
-                    <h2 class="text-lg font-semibold mb-4">Add New Task</h2>
+                <h2 class="text-lg font-semibold mb-4">Add New Task</h2>
 
-                    <form wire:submit.prevent="save" class="space-y-4 text-sm">
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Title</label>
-                            <textarea wire:model.defer="title" rows="3" class="w-full border rounded px-3 py-2"></textarea>
-                            @error('title')
-                                <span class="text-red-600 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                <form wire:submit.prevent="save" class="space-y-4 text-sm">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Title</label>
+                        <textarea wire:model.defer="title" rows="3" class="w-full border rounded px-3 py-2"></textarea>
+                        @error('title')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Category</label>
-                            <input type="text" wire:model.defer="category" class="w-full border rounded px-3 py-2">
-                            @error('category')
-                                <span class="text-red-600 text-sm">{{ $message }}</span>
-                            @enderror
-                        </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Category</label>
+                        <input type="text" wire:model.defer="category" class="w-full border rounded px-3 py-2">
+                        @error('category')
+                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-                        <div class="flex justify-end">
-                            <button type="button" wire:click="handleCancle"
-                                class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">
-                                Cancel
-                            </button>
-                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-                                <span wire:loading wire:target="save">Saving...</span>
-                                <span wire:loading.remove wire:target="save">Save</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="flex justify-end">
+                        <button type="button" wire:click="handleCancle"
+                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+                            <span wire:loading wire:target="save">Saving...</span>
+                            <span wire:loading.remove wire:target="save">Save</span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
     {{-- @endif --}}
 
     @include('livewire.components.toast')
@@ -143,4 +141,3 @@
         </script>
     @endscript
 </div>
-

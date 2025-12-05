@@ -2,19 +2,18 @@
 
 namespace App\Livewire;
 
-use App\Models\Assigner;
 use App\Models\Task;
-use App\Models\Project;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Title;
 use Livewire\Component;
+use App\Models\Project;
+use App\Models\Assigner;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
 
 #[Layout('layouts.app')]
 #[Title('Taskify')]
 class CreateTask extends Component
 {
-    public $body;
-    public $title;
+    public $title = "", $body = "", $requirment = '';
     public $projects;
     public $assigners;
     public $project_id;
@@ -31,6 +30,7 @@ class CreateTask extends Component
     protected $rules = [
         'title' => 'required|string|max:255',
         'body' => 'required|string',
+        'requirment' => 'required|string',
         'project_id' => 'required|exists:projects,id',
         'assigner_id' => 'required|exists:assigners,id',
         'start_date' => 'required|date',
@@ -43,15 +43,16 @@ class CreateTask extends Component
         try {
             Task::create($validated);
             session()->flash('message', 'Task created successfully.');
-            $this->reset(['title', 'body', 'project_id','assigner_id', 'start_date', 'completion_date']);
-            $this->redirect(route('task.list'), navigate:true);
+            $this->reset(['title', 'body', 'requirment', 'project_id', 'assigner_id', 'start_date', 'completion_date']);
+            $this->redirect(route('task.list'), navigate: true);
         } catch (\Throwable $th) {
             dd($th);
         }
     }
 
-    public function setBodyContent($value){
-        $this->body= $value;
+    public function setBodyContent($value)
+    {
+        $this->body = $value;
     }
     public function render()
     {

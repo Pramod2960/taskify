@@ -11,10 +11,13 @@ class Task extends Model
     protected $fillable = [
         'title',
         'body',
+        'requirment',
         'project_id',
         'completion_date',
         'start_date',
         'assigner_id',
+        'code_commited',
+        'qa_status',
         'status'
     ];
 
@@ -22,7 +25,7 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class, 'project_id');
     }
-   
+
     public function assigner(): BelongsTo
     {
         return $this->belongsTo(Assigner::class, 'assigner_id');

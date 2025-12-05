@@ -6,6 +6,7 @@ use App\Livewire\TaskList;
 use App\Livewire\Dashboard;
 use App\Livewire\CreateTask;
 use App\Livewire\Admin\AddProject;
+use App\Livewire\FormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -30,4 +31,12 @@ Route::name('learning.')->group(function () {
     Route::get('/learning', Learning::class)->name('show');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/form-builder', FormBuilder::class)->name('form-builder');
+});
+
 require __DIR__ . '/auth.php';
+
+
+
+

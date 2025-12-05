@@ -35,6 +35,8 @@ class Learning extends Component
         try {
             $task = ModelsLearning::find($id);
             $task->update(['status' => "completed"]);
+            $this->showToast("Great Job!", "success");
+            $this->js('hideToast');
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -59,7 +61,8 @@ class Learning extends Component
             ModelsLearning::create($validated);
             $this->reset(['title', 'category']);
             $this->showModal = false;
-            $this->showToast("Task created successfully! sdadasdsa dasdsa das dsad", "success");
+            $this->showToast("Task created successfully!", "success");
+            $this->js('hideToast');
         } catch (\Throwable $th) {
             dd($th);
         }

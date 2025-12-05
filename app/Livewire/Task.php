@@ -16,14 +16,22 @@ class Task extends Component
     public $id;
 
     public $task;
-    public $title, $body;
+    public $title, $body, $requirment;
     public $isEdit = false;
+
+    protected function rules()
+    {
+        return [
+            'title' => 'required|min:3',
+            'body' => 'required|min:3',
+        ];
+    }
 
     public function mount(ModelsTask $task)
     {
         $this->task = $task;
         try {
-            $this->fill($task->only('title', 'body'));
+            $this->fill($task->only('title', 'body', 'requirment'));
             $this->id = $task->id;
         } catch (\Throwable $th) {
             dd($th);
@@ -35,9 +43,12 @@ class Task extends Component
         if ($this->id == null)
             return;
         try {
+            $this->validate();
             $this->task->update([
                 'title'  => $this->title,
+                'requirment' => $this->requirment,
                 'body'   => $this->body,
+
             ]);
             session()->flash('message', 'Task saved successfully.');
         } catch (\Throwable $th) {
@@ -88,4 +99,3 @@ class Task extends Component
         return view('livewire.task');
     }
 }
-

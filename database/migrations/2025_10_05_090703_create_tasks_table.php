@@ -11,12 +11,17 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->text('title');
+
+            $table->longText('requirment');
             $table->longText('body');
             $table->integer('project_id');
             $table->string('assigner')->nullable();
             $table->string('status')->default('New');
             $table->date('start_date');
             $table->date('completion_date')->nullable();
+
+            $table->tinyInteger('code_pushed')->default('0');
+            $table->string('QA Status')->nullable();
             $table->timestamps();
         });
     }
