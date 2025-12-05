@@ -41,7 +41,7 @@
         <div class="mb-4 text-white">
             {{ $tasks->links() }}
         </div>
-        <table class="min-w-full border border-gray-200 table-auto mb-10" >
+        <table class="min-w-full border border-gray-200 table-auto mb-10">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="px-4 py-2 border">#</th>
@@ -50,7 +50,7 @@
                     <th class="px-4 py-2 border">Project</th>
                     <th class="px-4 py-2 border">Assigner</th>
                     <th class="px-4 py-2 border min-w-20">Start </th>
-                    <th class="px-4 py-2 border">Completion </th>
+                    <th class="px-4 py-2 border min-w-20">Due Days </th>
                 </tr>
             </thead>
             <tbody>
@@ -110,7 +110,17 @@
                         <td class="px-4 py-2 border"> {{ \Carbon\Carbon::parse($task->start_date)->format('d M') }}
                         </td>
                         <td class="px-4 py-2 border">
-                            {{ $task->completion_date ? \Carbon\Carbon::parse($task->completion_date)->format('d M') : '-' }}
+                            @php
+                                $start = \Carbon\Carbon::parse($task->start_date);
+                                $today = \Carbon\Carbon::today();
+                                $diffDays = $start->diffInDays($today);
+                            @endphp
+                            @if (in_array($task->status, ['pending', 'New']))
+                                <span class="text-sm text-rose-600 ml-1">
+                                 <span class="font-semibold">{{ $diffDays }}</span> days
+                                </span>
+                            @endif
+                            {{-- {{ $task->completion_date ? \Carbon\Carbon::parse($task->completion_date)->format('d M') : '-' }} --}}
                         </td>
                     </tr>
                 @endforeach

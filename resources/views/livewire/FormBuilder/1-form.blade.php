@@ -1,12 +1,17 @@
    <div class="max-w-2xl mx-auto p-6 bg-white rounded shadow">
 
        <h2 class="text-2xl font-bold mb-4">Create Form Field</h2>
-       <form wire:submit.prevent="save" class="text-sm"> {{-- Section Name --}} <div class="mb-4"> <label
-                   class="block font-medium mb-1">Section Name</label> <input type="text" wire:model="section_name"
-                   class="w-full border rounded px-3 py-2" placeholder="Enter section name"> @error('section_name')
+       <form wire:submit.prevent="save" class="text-sm">
+
+           {{-- Section Name --}}
+           <div class="mb-4"> <label class="block font-medium mb-1">Section Name</label> <input type="text"
+                   wire:model="section_name" class="w-full border rounded px-3 py-2" placeholder="Enter section name">
+               @error('section_name')
                    <span class="text-red-600 text-sm">{{ $message }}</span>
                @enderror
            </div>
+
+
            {{-- Field Display Name --}}
            <div class="mb-4"> <label class="block font-medium mb-1">Field Name
                    (Label)</label> <input type="text" wire:model="field_name" class="w-full border rounded px-3 py-2"
@@ -15,6 +20,8 @@
                    <span class="text-red-600 text-sm">{{ $message }}</span>
                @enderror
            </div>
+
+
            {{-- Tooltip Name --}}
            <div class="mb-4">
                <label class="block font-medium mb-1">ToolTip </label>
@@ -25,12 +32,14 @@
                @enderror
            </div>
 
+
            {{-- Field ID --}} <div class="mb-4"> <label class="block font-medium mb-1">Field ID (Internal /
                    Key)</label> <input type="text" wire:model="field_id" class="w-full border rounded px-3 py-2"
                    placeholder="Enter field identifier (e.g., first_name)"> @error('field_id')
                    <span class="text-red-600 text-sm">{{ $message }}</span>
                @enderror
            </div>
+           
 
            {{-- Data Type --}}
            <div class="mb-4">
@@ -80,7 +89,6 @@
                @endif
            </div>
 
-
            {{-- Mandatory --}}
            <div class="mb-4"> <label class="block font-medium mb-1">Mandatory</label>
                <select wire:model="mandatory" class="w-full border rounded px-3 py-2">
@@ -90,8 +98,10 @@
                </select> @error('mandatory')
                    <span class="text-red-600 text-sm">{{ $message }}</span>
                @enderror
-           </div> {{-- Submit --}}
+           </div>
+           
 
+           {{-- Submit --}}
            <div class="flex flex-row justify-between">
                <div class="flex">
                    <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" type="submit"> Save

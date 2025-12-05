@@ -44,7 +44,7 @@ class TaskList extends Component
                     ELSE 0
                     END ASC
                 ")
-                ->orderBy('updated_at', 'desc');
+                ->orderBy('created_at', 'desc');
 
             if (!empty($this->search)) {
                 $query->where(function ($q) {
@@ -65,10 +65,7 @@ class TaskList extends Component
                     $q->where('updated_at', 'like', '%' . $filterDate . '%');
                 });
             }
-            Log::info($this->filter_project);
             if (!empty($this->filter_project)) {
-                Log::info($this->filter_project);
-                //    dd($this->filter_project);
                 $filter_project = $this->filter_project;
                 $query->where(function ($q) use ($filter_project) {
                     $q->where('project_id', 'like', '%' . $filter_project . '%');
