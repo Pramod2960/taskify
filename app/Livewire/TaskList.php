@@ -72,7 +72,7 @@ class TaskList extends Component
                 });
             }
 
-            $tasks = $query->paginate(20);
+            $tasks = $query->paginate(50);
             return view('livewire.task-list', [
                 'tasks' => $tasks,
             ]);

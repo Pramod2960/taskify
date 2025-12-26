@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\ClientProject;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
@@ -14,6 +15,7 @@ class Learning extends Component
 {
     use WithPagination;
 
+    public $project_id = null, $project_name;
     // public $tasks;
     public $search;
     public $filter_date;
@@ -25,8 +27,15 @@ class Learning extends Component
 
     protected $rules = [
         'title' => 'required|string',
-        'category' => 'required|string',
+        // 'category' => 'required|string',
+
     ];
+
+    public function mount($project)
+    {
+        $this->project_id = $project;
+        $this->project_name = ClientProject::findOrFail($project)->name;
+    }
 
     public function markAsComplete($id)
     {
@@ -58,8 +67,12 @@ class Learning extends Component
     {
         $validated = $this->validate();
         try {
-            ModelsLearning::create($validated);
-            $this->reset(['title', 'category']);
+            ModelsLearning::create([
+                'title'      => $this->title,
+                'project_id' => $this->project_id,
+                'status'     => 'new',
+            ]);
+            // $this->reset(['title', 'category']);
             $this->showModal = false;
             $this->showToast("Task created successfully!", "success");
             $this->js('hideToast');
@@ -110,7 +123,8 @@ class Learning extends Component
             WHEN status = 'new' THEN 1
             WHEN status = 'completed' THEN 2 
             ELSE 0 END ASC")
-                ->orderBy('updated_at', 'asc');
+                ->orderBy('updated_at', 'asc')
+                ->where('project_id',  $this->project_id);
 
             if (!empty($this->search)) {
                 $query->where(function ($q) {

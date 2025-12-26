@@ -50,7 +50,7 @@
                     <th class="px-4 py-2 border">Project</th>
                     <th class="px-4 py-2 border">Assigner</th>
                     <th class="px-4 py-2 border min-w-20">Start </th>
-                    <th class="px-4 py-2 border min-w-20">Due Days </th>
+                    <th class="px-4 py-2 border "><pre>   Due   </pre></th>
                 </tr>
             </thead>
             <tbody>

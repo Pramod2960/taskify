@@ -6,6 +6,7 @@ use App\Livewire\TaskList;
 use App\Livewire\Dashboard;
 use App\Livewire\CreateTask;
 use App\Livewire\Admin\AddProject;
+use App\Livewire\ClientProjects;
 use App\Livewire\FormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Route;
 
@@ -27,16 +28,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/add-project', AddProject::class)->name('project.create');
 });
 
-Route::name('learning.')->group(function () {
-    Route::get('/learning', Learning::class)->name('show');
-});
+Route::get('/learning', ClientProjects::class)
+    ->name('learning.portal');
+
+Route::get('/learning/{project}', \App\Livewire\Learning::class)
+    ->name('learning.project');
+
+// Route::name('learning.')->group(function () {
+//     Route::get('/learning', Learning::class)->name('show');
+// });
 
 Route::middleware('auth')->group(function () {
     Route::get('/form-builder', FormBuilder::class)->name('form-builder');
 });
 
 require __DIR__ . '/auth.php';
-
-
-
-

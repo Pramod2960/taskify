@@ -1,6 +1,54 @@
 <div class="w-full px-10 h-full p-6 bg-white rounded text-sm mt-2" x-data="{ showModal: false }">
+    <nav class="flex mb-4 text-sm text-gray-600" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2">
+            <!-- Home -->
+            <li class="inline-flex items-center">
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center hover:text-blue-600">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2L2 8h2v8h4v-4h4v4h4V8h2L10 2z" />
+                    </svg>
+                    Home
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <li>
+                <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd" />
+                </svg>
+            </li>
+
+            <!-- Projects -->
+            <li>
+                <a href="{{ route('learning.portal') }}" class="hover:text-blue-600">
+                    Projects
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <li>
+                <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd" />
+                </svg>
+            </li>
+
+            <!-- Current Page -->
+            <li aria-current="page">
+                <span class="font-medium text-gray-900">
+                    {{ $project_name ?? 'Learning' }}
+                </span>
+            </li>
+        </ol>
+    </nav>
+
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-semibold">All Learning Tasks</h2>
+        <h2 class="text-xl font-semibold"> Project :
+            <span class="text-blue-600 font-bold">{{ $project_name }}</span>
+        </h2>
 
         <div class="flex gap-2 items-center">
             <input wire:model.debounce.300ms="search" placeholder="Search by Title"
@@ -24,8 +72,8 @@
                 <tr>
                     <th class="px-4 py-2 border">#</th>
                     <th class="px-4 py-2 border">Title</th>
-                    <th class="px-4 py-2 border">Status</th>
-                    <th class="px-4 py-2 border">Category</th>
+                    <th class="px-4 py-2 border max-w-[180px]">Status</th>
+                    {{-- <th class="px-4 py-2 border">Category</th> --}}
                     <th class="px-4 py-2 border min-w-[180px]">Actions</th>
                 </tr>
             </thead>
@@ -56,10 +104,10 @@
                                 {{ $task->status ?? '—' }}
                             </span>
                         </td>
-                        <td
+                        {{-- <td
                             class="px-4 py-1 border text-center text-sm {{ $task->status === 'completed' ? 'text-gray-500' : '' }}">
                             {{ $task->category ?? '—' }}
-                        </td>
+                        </td> --}}
                         <td class="px-4 py-1 border text-center text-sm">
                             @if ($task->status !== 'completed')
                                 <button wire:click="markAsComplete({{ $task->id }})"
@@ -101,13 +149,13 @@
                         @enderror
                     </div>
 
-                    <div>
+                    {{-- <div>
                         <label class="block text-sm font-medium mb-1">Category</label>
                         <input type="text" wire:model.defer="category" class="w-full border rounded px-3 py-2">
                         @error('category')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="flex justify-end">
                         <button type="button" wire:click="handleCancle"

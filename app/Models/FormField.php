@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FormBuilder extends Model
+class FormField extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'section_name',
+        'section_id',
         'field_name',
         'field_id',
         'data_type',
@@ -23,6 +23,5 @@ class FormBuilder extends Model
         'visibility_value',
         'sync_field',
         'field_order',
-        'form_name',
     ];
 }

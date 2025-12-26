@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\FormBuilder\GenertedData;
+namespace App\Livewire\FormBuilder\GeneratedData;
 
 use Illuminate\Support\Collection;
 
@@ -30,8 +30,10 @@ class HtmlBuilder
         $required = $field->mandatory ? 'required_field' : '';
         $tooltipHtml = $this->tooltip($field->tooltip);
         $errorSpan = "<span class='text-danger error-text {$field->field_id}_error'></span>";
+        $hiddenClass = ($field->visibility_type === 'conditional') ? 'd-none' : '';
 
         return "
+        div class='field-wrapper-{$field->field_id} {$hiddenClass}'>  
             <div class='col-sm-3 mb-3 field_pos'>
                 <label class='form-label' for='{$field->field_id}'>
                     {$field->field_name} {$tooltipHtml}
@@ -46,6 +48,7 @@ class HtmlBuilder
                     class='form-control mb-3 {$required}'>
                     {$errorSpan}
             </div>
+        </div>
         ";
     }
 

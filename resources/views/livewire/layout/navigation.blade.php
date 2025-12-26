@@ -47,7 +47,7 @@ new class extends Component {
                 @endcan
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('learning.show')" :active="request()->routeIs('learning.show')" wire:navigate.hover>
+                    <x-nav-link :href="route('learning.portal')" :active="request()->routeIs('learning.portal')" wire:navigate.hover>
                         Learning
                     </x-nav-link>
                 </div>

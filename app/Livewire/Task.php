@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Layout;
 use App\Models\Task as ModelsTask;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Title;
 
 #[Layout('layouts.app')]
@@ -27,6 +28,7 @@ class Task extends Component
         ];
     }
 
+    #[Lazy(isolate: false)]
     public function mount(ModelsTask $task)
     {
         $this->task = $task;
