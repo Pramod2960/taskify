@@ -14,9 +14,7 @@
             <!-- Divider -->
             <li>
                 <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                 </svg>
             </li>
 
@@ -30,9 +28,7 @@
             <!-- Divider -->
             <li>
                 <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                 </svg>
             </li>
 
@@ -51,8 +47,7 @@
         </h2>
 
         <div class="flex gap-2 items-center">
-            <input wire:model.debounce.300ms="search" placeholder="Search by Title"
-                class="rounded-lg p-1 px-2 text-sm border" />
+            <input wire:model.debounce.300ms="search" placeholder="Search by Title" class="rounded-lg p-1 px-2 text-sm border" />
 
             <button wire:click="clearFilter" class="bg-slate-300 text-black px-4 py-1 rounded">
                 Clear Filter
@@ -79,51 +74,47 @@
             </thead>
             <tbody>
                 @forelse ($tasks as $task)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-2 border text-center">{{ $loop->iteration }}</td>
-                        <td class="px-4 py-2 border text-center flex justify-between">
-                            <div>
-                                <a wire:click="linkClick({{ $task->id }})"
-                                    class="no-underline hover:underline {{ $task->status === 'completed' ? 'text-gray-500' : 'text-blue-600' }}">
-                                    {{ $task->title }}
-                                </a>
-                            </div>
-                            <div>
-                                <button wire:click="copy('{{ $task->title }}')" class=" opacity-50">
-                                    <img src="{{ asset('icons/copy.svg') }}" alt="Copy" class="w-4 h-4" />
-                                </button>
-                            </div>
-                        </td>
-                        <td class="px-4 py-1 border text-center text-sm">
-                            <span
-                                class="inline-block px-2 py-1 text-xs font-semibold rounded-full uppercase
-                                @if (strtolower($task->status) === 'new') text-rose-500 bg-rose-100
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2 border text-center">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2 border text-center flex justify-between">
+                        <div>
+                            <a wire:click="linkClick({{ $task->id }})" class="no-underline hover:underline {{ $task->status === 'completed' ? 'text-gray-500' : 'text-blue-600' }}">
+                                {{ $task->title }}
+                            </a>
+                        </div>
+                        <div>
+                            <button wire:click="copy('{{ $task->title }}')" class=" opacity-50">
+                                <img src="{{ asset('icons/copy.svg') }}" alt="Copy" class="w-4 h-4" />
+                            </button>
+                        </div>
+                    </td>
+                    <td class="px-4 py-1 border text-center text-sm">
+                        <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full uppercase
+                                @if (strtolower($task->status) === 'core') text-rose-500 bg-rose-100
                                 @elseif(strtolower($task->status) === 'completed') text-gray-700 bg-gray-100 opacity-60
-                                @elseif(strtolower($task->status) === 'overdue') text-red-700 bg-red-100
+                                @elseif(strtolower($task->status) === 'ui') text-purple-700 bg-purple-100
                                 @else text-blue-600 bg-blue-100 @endif">
-                                {{ $task->status ?? '—' }}
-                            </span>
-                        </td>
-                        {{-- <td
+                            {{ $task->status ?? '—' }}
+                        </span>
+                    </td>
+                    {{-- <td
                             class="px-4 py-1 border text-center text-sm {{ $task->status === 'completed' ? 'text-gray-500' : '' }}">
-                            {{ $task->category ?? '—' }}
-                        </td> --}}
-                        <td class="px-4 py-1 border text-center text-sm">
-                            @if ($task->status !== 'completed')
-                                <button wire:click="markAsComplete({{ $task->id }})"
-                                    class="px-3 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300 transition">
-                                    <span wire:loading
-                                        wire:target='markAsComplete({{ $task->id }})'>Processing..</span>
-                                    <span wire:loading.remove wire:target='markAsComplete({{ $task->id }})'>Mark as
-                                        Complete</span>
-                                </button>
-                            @endif
-                        </td>
-                    </tr>
+                    {{ $task->category ?? '—' }}
+                    </td> --}}
+                    <td class="px-4 py-1 border text-center text-sm">
+                        @if ($task->status !== 'completed')
+                        <button wire:click="markAsComplete({{ $task->id }})" class="px-3 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300 transition">
+                            <span wire:loading wire:target='markAsComplete({{ $task->id }})'>Processing..</span>
+                            <span wire:loading.remove wire:target='markAsComplete({{ $task->id }})'>Mark as
+                                Complete</span>
+                        </button>
+                        @endif
+                    </td>
+                </tr>
                 @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-4 text-gray-500">No tasks found.</td>
-                    </tr>
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-gray-500">No tasks found.</td>
+                </tr>
                 @endforelse
             </tbody>
         </table>
@@ -135,57 +126,63 @@
     <div wire:show="showModal">
         <div x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative">
-                <button class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl font-bold"
-                    wire:click="$set('showModal',false)">&times;</button>
+                <button class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl font-bold" wire:click="$set('showModal',false)">&times;</button>
 
                 <h2 class="text-lg font-semibold mb-4">Add New Task</h2>
 
                 <form wire:submit.prevent="save" class="space-y-4 text-sm">
                     <div>
                         <label class="block text-sm font-medium mb-1">Title</label>
-                        <textarea wire:model.defer="title" rows="3" class="w-full border rounded px-3 py-2"></textarea>
+                        <textarea wire:model.defer="title" rows="6" class="w-full border rounded px-3 py-2"></textarea>
                         @error('title')
-                            <span class="text-red-600 text-sm">{{ $message }}</span>
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    {{-- <div>
-                        <label class="block text-sm font-medium mb-1">Category</label>
-                        <input type="text" wire:model.defer="category" class="w-full border rounded px-3 py-2">
-                        @error('category')
-                            <span class="text-red-600 text-sm">{{ $message }}</span>
-                        @enderror
-                    </div> --}}
+            @error('status')
+            <span class="text-red-600 text-sm">{{ $message }}</span>
+            @enderror
 
-                    <div class="flex justify-end">
-                        <button type="button" wire:click="handleCancle"
-                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">
-                            Cancel
-                        </button>
-                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-                            <span wire:loading wire:target="save">Saving...</span>
-                            <span wire:loading.remove wire:target="save">Save</span>
-                        </button>
-                    </div>
-                </form>
+            <div class="flex justify-between">
+                <div class="w-full mr-2">
+                    <select wire:model="status" class="w-full mr-2 border border-gray-300 rounded px-3 py-2 text-gray-800">
+                        <option value="">Select Type </option>
+                        <option value="ui">UI</option>
+                        <option value="core">Core</option>
+                    </select>
+                </div>
+
+                <!-- Buttons (50%) -->
+                <div class="w-1/2 flex justify-end">
+                    <button type="button" wire:click="handleCancle" class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+                        <span wire:loading wire:target="save">Saving...</span>
+                        <span wire:loading.remove wire:target="save">Save</span>
+                    </button>
+                </div>
             </div>
+            </form>
         </div>
     </div>
-    {{-- @endif --}}
+</div>
 
-    @include('livewire.components.toast')
+@include('livewire.components.toast')
 
-    @script
-        <script>
-            $js('copy', (data) => {
-                const textToCopy = data;
-                navigator.clipboard.writeText(textToCopy)
-                    .then(() => {})
-                    .catch(err => {
-                        console.error('Failed to copy text: ', err);
-                        alert('Failed to copy text.');
-                    });
+@script
+<script>
+    $js('copy', (data) => {
+        const textToCopy = data;
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {})
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+                alert('Failed to copy text.');
             });
-        </script>
-    @endscript
+    });
+
+</script>
+@endscript
 </div>

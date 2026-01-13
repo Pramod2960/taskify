@@ -17,6 +17,8 @@
                     <div class="flex items-start justify-between mb-3">
                         <h2 class="text-lg font-semibold text-gray-800 group-hover:text-blue-600">
                             {{ $project->name }}
+                            <span
+                                class=" rounded-full text-white bg-rose-500 px-2 ml-auto">{{ $project->new_learnings_count }}</span>
                         </h2>
 
                         <!-- Arrow icon -->

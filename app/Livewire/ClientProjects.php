@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\ClientProject as ClientProjectModal ;
+use App\Models\ClientProject as ClientProjectModal;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -11,6 +11,7 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class ClientProjects extends Component
 {
+    public $projects;
     public bool $showModal = false;
 
     public string $name = '';
@@ -21,7 +22,17 @@ class ClientProjects extends Component
         'description' => 'nullable|string',
     ];
 
-    public function createProject()
+
+    public function mount()
+    {
+        $this->projects = ClientProjectModal::withCount([
+            'learnings as new_learnings_count' => function ($query) {
+                $query->where('status', 'New');
+            }
+        ])->get();
+    }
+
+     public function createProject()
     {
         $this->validate();
 
@@ -35,8 +46,6 @@ class ClientProjects extends Component
 
     public function render()
     {
-        return view('livewire.client-projects', [
-            'projects' => ClientProjectModal::all(),
-        ]);
+        return view('livewire.client-projects');
     }
 }

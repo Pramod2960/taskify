@@ -28,7 +28,7 @@ class Learning extends Component
     protected $rules = [
         'title' => 'required|string',
         // 'category' => 'required|string',
-
+        'status' => 'required|string'
     ];
 
     public function mount($project)
@@ -70,7 +70,7 @@ class Learning extends Component
             ModelsLearning::create([
                 'title'      => $this->title,
                 'project_id' => $this->project_id,
-                'status'     => 'new',
+                'status'     => $this->status,
             ]);
             // $this->reset(['title', 'category']);
             $this->showModal = false;
@@ -120,8 +120,10 @@ class Learning extends Component
         try {
             $query = ModelsLearning::orderByRaw("
             CASE 
-            WHEN status = 'new' THEN 1
-            WHEN status = 'completed' THEN 2 
+            WHEN status = 'core' THEN 1
+            WHEN status = 'ui' THEN 2
+            WHEN status = 'new' THEN 3
+            WHEN status = 'completed' THEN 4 
             ELSE 0 END ASC")
                 ->orderBy('updated_at', 'asc')
                 ->where('project_id',  $this->project_id);

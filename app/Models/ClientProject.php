@@ -14,6 +14,13 @@ class ClientProject extends Model
 
     public function learnings()
     {
-        return $this->hasMany(Learning::class);
+        return $this->hasMany(Learning::class, 'project_id');
+    }
+
+    public function newLearningsCount()
+    {
+        return $this->learnings()
+            ->where('status', 'New')
+            ->count();
     }
 }
