@@ -27,7 +27,7 @@ class ClientProjects extends Component
     {
         $this->projects = ClientProjectModal::withCount([
             'learnings as new_learnings_count' => function ($query) {
-                $query->where('status', 'New');
+                $query->where('status',"!=" ,'Completed');
             }
         ])->get();
     }
