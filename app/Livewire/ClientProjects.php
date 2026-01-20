@@ -26,24 +26,14 @@ class ClientProjects extends Component
 
     public function mount()
     {
-        // $userId = auth()->id();
-        // //   dd(  $userId);
-        // // $this->projects = ClientProjectModal::withCount([
-        // //     'learnings as new_learnings_count' => function ($query) {
-        // //         $query->where('status',"!=" ,'Completed');
-        // //     }
-        // // ])->get();
+        if (auth()->user()->hasRole('superadmin')) {
+            $this->projects = ClientProjectModal::withCount([
+                'learnings as new_learnings_count' => fn($q) =>
+                $q->where('status', '!=', 'Completed')
+            ])->get();
 
-        // $this->projects = ClientProjectModal::whereHas('users', function ($q) use ($userId) {
-        //     $q->where('users.id', $userId);
-        // })
-        //     ->withCount([
-        //         'learnings as new_learnings_count' => function ($query) {
-        //             $query->where('status', '!=', 'Completed');
-        //         }
-        //     ])
-        //     ->get();
-
+            return;
+        }
         $this->projects = auth()->user()
             ->clientProjects()
             ->withCount([
@@ -52,19 +42,6 @@ class ClientProjects extends Component
             ])
             ->get();
     }
-
-    // public function mount($project)
-    // {
-    //     $userId = auth()->id();
-
-    //     $projectModel = ClientProjectModal::where('id', $project)
-    //         ->whereHas('users', function ($q) use ($userId) {
-    //             $q->where('users.id', $userId);
-    //         })
-    //         ->firstOrFail();
-
-    //     $this->projects = $projectModel->name;
-    // }
 
     public function createProject()
     {
