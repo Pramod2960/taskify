@@ -11,6 +11,7 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class ClientProjects extends Component
 {
+
     public $projects;
     public bool $showModal = false;
 
@@ -25,14 +26,47 @@ class ClientProjects extends Component
 
     public function mount()
     {
-        $this->projects = ClientProjectModal::withCount([
-            'learnings as new_learnings_count' => function ($query) {
-                $query->where('status',"!=" ,'Completed');
-            }
-        ])->get();
+        // $userId = auth()->id();
+        // //   dd(  $userId);
+        // // $this->projects = ClientProjectModal::withCount([
+        // //     'learnings as new_learnings_count' => function ($query) {
+        // //         $query->where('status',"!=" ,'Completed');
+        // //     }
+        // // ])->get();
+
+        // $this->projects = ClientProjectModal::whereHas('users', function ($q) use ($userId) {
+        //     $q->where('users.id', $userId);
+        // })
+        //     ->withCount([
+        //         'learnings as new_learnings_count' => function ($query) {
+        //             $query->where('status', '!=', 'Completed');
+        //         }
+        //     ])
+        //     ->get();
+
+        $this->projects = auth()->user()
+            ->clientProjects()
+            ->withCount([
+                'learnings as new_learnings_count' => fn($q) =>
+                $q->where('status', '!=', 'Completed')
+            ])
+            ->get();
     }
 
-     public function createProject()
+    // public function mount($project)
+    // {
+    //     $userId = auth()->id();
+
+    //     $projectModel = ClientProjectModal::where('id', $project)
+    //         ->whereHas('users', function ($q) use ($userId) {
+    //             $q->where('users.id', $userId);
+    //         })
+    //         ->firstOrFail();
+
+    //     $this->projects = $projectModel->name;
+    // }
+
+    public function createProject()
     {
         $this->validate();
 

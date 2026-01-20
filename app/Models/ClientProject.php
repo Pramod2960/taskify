@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClientProject extends Model
 {
+    protected $table = 'client_projects';
 
     protected $fillable = [
         'name',
@@ -24,8 +25,14 @@ class ClientProject extends Model
             ->count();
     }
 
+
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(
+            User::class,
+            'project_user',
+            'project_id',
+            'user_id'
+        );
     }
 }
