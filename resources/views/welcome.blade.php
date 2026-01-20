@@ -173,7 +173,7 @@
                     <path d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
-            <button class="hidden md:block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full transition">
+            <button class="hidden md:block bg-green-600 hover:bg-green-700 text-white px-4  rounded-full transition">
                 @if (Route::has('login'))
                 <livewire:welcome.navigation />
                 @endif
