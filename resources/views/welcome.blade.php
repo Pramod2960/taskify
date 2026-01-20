@@ -197,8 +197,10 @@
         </p>
 
         <div class="flex items-center gap-2 mt-8 text-sm">
-            <button class="px-6 py-2.5 bg-green-600 hover:bg-green-700 transition rounded-full">
-                Get Started
+            <button class="px-6 py-1 bg-green-600 hover:bg-green-700 transition rounded-full">
+                @if (Route::has('login'))
+                <livewire:welcome.navigation />
+                @endif
             </button>
             <button class="flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-6 py-2.5">
                 <span>Learn More</span>
