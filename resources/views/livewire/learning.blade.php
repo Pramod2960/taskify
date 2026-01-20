@@ -90,7 +90,8 @@
                     </td>
                     <td class="px-4 py-1 border text-center text-sm">
                         <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full uppercase
-                                @if (strtolower($task->status) === 'core') text-rose-500 bg-rose-100
+                                @if (strtolower($task->status) === 'core') text-green-500 bg-green-100
+                                @elseif(strtolower($task->status) === 'bug') text-rose-500 bg-rose-100
                                 @elseif(strtolower($task->status) === 'completed') text-gray-700 bg-gray-100 opacity-60
                                 @elseif(strtolower($task->status) === 'ui') text-purple-700 bg-purple-100
                                 @else text-blue-600 bg-blue-100 @endif">
@@ -149,6 +150,7 @@
                         <option value="">Select Type </option>
                         <option value="ui">UI</option>
                         <option value="core">Core</option>
+                        <option value="core">Bug</option>
                     </select>
                 </div>
 

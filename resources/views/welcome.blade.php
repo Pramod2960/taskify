@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+    <title>Laravel</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
-        <!-- Styles -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="antialiased font-sans">
-        <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
+    <!-- Styles -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="antialiased font-sans">
+    {{-- <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
             <img id="background" class="absolute -left-20 top-0 max-w-[877px]" src="https://laravel.com/assets/img/welcome/background.svg" />
             <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
                 <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
@@ -137,9 +137,101 @@
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">
                         Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-                    </footer>
-                </div>
+    </footer>
+    </div>
+    </div>
+    </div> --}}
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+    </style>
+    <section class="relative flex flex-col items-center max-md:px-2 bg-black text-white text-sm pb-28 pt-8 bg-[url(https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/hero/green-gradient-bg.svg)] bg-top bg-no-repeat">
+        <nav class="flex items-center border mx-4 w-full max-w-4xl justify-between border-slate-700 px-4 py-2.5 rounded-full text-white">
+            <a href="#">
+                <span class="text-base font-bold ml-10"> Taskify</span>
+            </a>
+            <div id="menu" class="max-md:absolute max-md:bg-black/50 max-md:backdrop-blur max-md:top-0 transition-all duration-300 max-md:h-full max-md:w-full max-md:z-10 max-md:-left-full max-md:justify-center flex-col md:flex-row flex items-center gap-2">
+                <a onclick="closeNavbar()" class="px-4 py-2 border border-white/10 bg-white/10 font-medium rounded-full" href="#">Home</a>
+                <a onclick="closeNavbar()" class="px-4 py-2" href="#">About</a>
+                {{-- <a onclick="closeNavbar()" class="px-4 py-2" href="#">Stories</a>
+                <a onclick="closeNavbar()" class="px-4 py-2" href="#">Pricing</a> --}}
+                <a onclick="closeNavbar()" class="px-4 py-2" href="#">Docs</a>
+                <button onclick="closeNavbar()" class="md:hidden bg-gray-800 hover:bg-black text-white p-2 rounded-md aspect-square font-medium transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                    </svg>
+                </button>
             </div>
+            <button onclick="openNavbar()" class="md:hidden">
+                <svg class="size-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+            <button class="hidden md:block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-full transition">
+                @if (Route::has('login'))
+                <livewire:welcome.navigation />
+                @endif
+            </button>
+        </nav>
+
+        <div class="flex flex-wrap items-center justify-center p-1.5 mt-24 rounded-full border border-green-900 bg-green-700/15 text-xs">
+            <div class="flex items-center">
+                {{-- <img class="size-7 rounded-full border-3 border-white" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=50" alt="userImage1">
+                <img class="size-7 rounded-full border-3 border-white -translate-x-2" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=50" alt="userImage2">
+                <img class="size-7 rounded-full border-3 border-white -translate-x-4" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=50&h=50&auto=format&fit=crop" alt="userImage3"> --}}
+            </div>
+            <p class="-translate-x-2 mx-5">Join community of Developers </p>
         </div>
-    </body>
+
+        <h1 class="text-4xl md:text-6xl text-center font-semibold max-w-4xl mt-5 bg-gradient-to-r from-white to-[#748298] text-transparent bg-clip-text">
+            Stay Organized. Deliver Faster. Work Smarter.
+        </h1>
+        <p class="text-slate-300 md:text-base max-md:px-2 text-center max-w-2xl mt-3">
+            Manage projects, assign tasks, and track progress effortlessly — all in one powerful workspace designed for productive teams.
+        </p>
+
+        <div class="flex items-center gap-2 mt-8 text-sm">
+            <button class="px-6 py-2.5 bg-green-600 hover:bg-green-700 transition rounded-full">
+                Get Started
+            </button>
+            <button class="flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-6 py-2.5">
+                <span>Learn More</span>
+                <svg class="mt-0.5" width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.25.5 4.75 4l-3.5 3.5" stroke="currentColor" stroke-opacity=".4" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+    </section>
+
+
+    <script>
+        const menu = document.getElementById('menu');
+
+        function closeNavbar() {
+            menu.classList.remove('max-md:left-0');
+            menu.classList.add('max-md:-left-full');
+        }
+
+        function openNavbar() {
+            menu.classList.remove('max-md:-left-full');
+            menu.classList.add('max-md:left-0');
+        }
+
+        document.querySelectorAll('#menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('#menu a').forEach(el => el.classList.remove('border', 'border-white/10', 'bg-white/10', 'font-medium', 'rounded-full'));
+                this.classList.add('border', 'border-white/10', 'bg-white/10', 'font-medium', 'rounded-full');
+            });
+        });
+
+    </script>
+
+</body>
 </html>

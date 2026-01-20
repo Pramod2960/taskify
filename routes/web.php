@@ -35,7 +35,7 @@ Route::get('/learning/{project}', \App\Livewire\Learning::class)
     ->name('learning.project');
 
 // Route::name('learning.')->group(function () {
-//     Route::get('/learning', Learning::class)->name('show');
+//     Route::get('/learning', Learning::class)->name('srew');
 // });
 
 Route::middleware('auth')->group(function () {
