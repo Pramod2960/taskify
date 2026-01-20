@@ -1,9 +1,11 @@
 <div class="p-6">
     <div class=" flex flex-row gap-5 justify-between">
         <h1 class="text-2xl font-bold mb-4">Learning Portal</h1>
+        @hasanyrole('superadmin')
         <button wire:click="$set('showModal', true)" class="mb-4 px-4 py-2 bg-blue-600 text-white rounded">
             + New Project
         </button>
+        @endhasanyrole
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

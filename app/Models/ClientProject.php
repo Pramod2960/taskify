@@ -23,4 +23,9 @@ class ClientProject extends Model
             ->where('status', 'New')
             ->count();
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

@@ -17,4 +17,5 @@ class Learning extends Model
     {
         return $this->belongsTo(ClientProject::class);
     }
+    
 }
