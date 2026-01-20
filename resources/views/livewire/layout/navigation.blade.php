@@ -22,13 +22,11 @@ new class extends Component {
             <div class="flex">
                 <!-- Logo -->
 
-                @hasanyrole('superadmin')
                 <div class="shrink-0 flex items-center scale-75">
                     <a href="{{ route('dashboard') }}" wire:navigate>
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
-                @endhasanyrole
 
                 <!-- Navigation Links -->
                 @hasanyrole('superadmin')
