@@ -54,8 +54,9 @@
                 <img class="size-7 rounded-full border-3 border-white -translate-x-2" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=50" alt="userImage2">
                 <img class="size-7 rounded-full border-3 border-white -translate-x-4" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=50&h=50&auto=format&fit=crop" alt="userImage3">
             </div>
+            <pre class="">Pramod, </pre>
             @foreach($this->userAssignToThisProject as $user)
-            <p>{{ $user->name }}, </p>
+            <pre>{{ $user->name }}, </pre>
             @endforeach
         </div>
 
@@ -81,6 +82,7 @@
                     <th class="px-4 py-2 border">#</th>
                     <th class="px-4 py-2 border">Title</th>
                     <th class="px-4 py-2 border max-w-[180px]">Status</th>
+                    <th class="px-4 py-2 border max-w-[180px]">Owner</th>
                     {{-- <th class="px-4 py-2 border">Category</th> --}}
                     <th class="px-4 py-2 border min-w-[180px]">Actions</th>
                 </tr>
@@ -110,6 +112,17 @@
                                 @else text-blue-600 bg-blue-100 @endif">
                             {{ $task->status ?? '—' }}
                         </span>
+                    </td>
+                    <td class="text-center border text-sm">
+                        <div class="items-center">
+                            @if($task->assigned_to === auth()->id())
+                            <span class="text-xs text-green-600 font-semibold">You</span>
+                            @else
+                            <span class="text-xs text-gray-700">
+                                {{ $task->assignee->name ?? '-' }}
+                            </span>
+                            @endif
+                        </div>
                     </td>
                     {{-- <td
                             class="px-4 py-1 border text-center text-sm {{ $task->status === 'completed' ? 'text-gray-500' : '' }}">
@@ -156,6 +169,21 @@
                     @error('status')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                     @enderror
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Assign To</label>
+                        <select wire:model="assigned_to" class="w-full border border-gray-300 rounded px-3 py-2 text-gray-800">
+                            @foreach($userAssignToThisProject as $user)
+                            <option value="{{ $user->id }}">
+                                {{ $user->name }}
+                                @if($user->id === auth()->id()) (Me) @endif
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('assigned_to')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
 
                     <div class="flex justify-between">
                         <div class="w-full mr-2">

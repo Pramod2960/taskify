@@ -10,12 +10,17 @@ class Learning extends Model
         'project_id',
         'title',
         'status',
-        'category'
+        'category',
+        'assigned_to'
     ];
 
     public function project()
     {
         return $this->belongsTo(ClientProject::class);
     }
-    
+
+    public function assignee()
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
 }

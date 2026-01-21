@@ -21,23 +21,27 @@ class Learning extends Component
     public $filter_date;
     public $showModal = false;
     public $showToast = false,  $toastMessage = '', $toastType;
-    public $userAssignToThisProject = [];
+    public $assigned_to, $userAssignToThisProject = [];
 
     public $title, $category, $status;
 
     protected $rules = [
         'title' => 'required|string',
         // 'category' => 'required|string',
-        'status' => 'required|string'
+        'status' => 'required|string',
+        'assigned_to' => 'required|exists:users,id'
     ];
 
     public function mount($project)
     {
+
         $this->project_id = $project;
         $projectModel = ClientProject::with('users:id,name')->findOrFail($project);
-       
+
         $this->project_name = $projectModel->name;
+
         $this->userAssignToThisProject = $projectModel->users;
+        $this->assigned_to = auth()->id();
     }
 
     public function markAsComplete($id)
@@ -74,9 +78,12 @@ class Learning extends Component
                 'title'      => $this->title,
                 'project_id' => $this->project_id,
                 'status'     => $this->status,
+                'assigned_to' => $this->assigned_to,
             ]);
             // $this->reset(['title', 'category']);
             $this->showModal = false;
+            $this->assigned_to = auth()->id();
+
             $this->showToast("Task created successfully!", "success");
             $this->js('hideToast');
         } catch (\Throwable $th) {
