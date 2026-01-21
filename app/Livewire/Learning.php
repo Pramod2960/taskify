@@ -21,7 +21,7 @@ class Learning extends Component
     public $filter_date;
     public $showModal = false;
     public $showToast = false,  $toastMessage = '', $toastType;
-
+    public $userAssignToThisProject = [];
 
     public $title, $category, $status;
 
@@ -34,7 +34,10 @@ class Learning extends Component
     public function mount($project)
     {
         $this->project_id = $project;
-        $this->project_name = ClientProject::findOrFail($project)->name;
+        $projectModel = ClientProject::with('users:id,name')->findOrFail($project);
+       
+        $this->project_name = $projectModel->name;
+        $this->userAssignToThisProject = $projectModel->users;
     }
 
     public function markAsComplete($id)

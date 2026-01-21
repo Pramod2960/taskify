@@ -60,3 +60,6 @@ class PermissionsDemoSeeder extends Seeder
         // $user->assignRole($role3);
     }
 }
+
+
+// php artisan db:seed --class=PermissionsDemoSeeder

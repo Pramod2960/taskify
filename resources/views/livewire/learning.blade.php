@@ -38,6 +38,8 @@
                     {{ $project_name ?? 'Learning' }}
                 </span>
             </li>
+
+
         </ol>
     </nav>
 
@@ -45,6 +47,17 @@
         <h2 class="text-xl font-semibold"> Project :
             <span class="text-blue-600 font-bold">{{ $project_name }}</span>
         </h2>
+
+        <div class="flex flex-wrap items-center justify-center p-1.5 rounded-full text-xs">
+            <div class="flex items-center">
+                <img class="size-7 rounded-full border-3 border-white" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=50" alt="userImage1">
+                <img class="size-7 rounded-full border-3 border-white -translate-x-2" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=50" alt="userImage2">
+                <img class="size-7 rounded-full border-3 border-white -translate-x-4" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=50&h=50&auto=format&fit=crop" alt="userImage3">
+            </div>
+            @foreach($this->userAssignToThisProject as $user)
+            <p>{{ $user->name }}, </p>
+            @endforeach
+        </div>
 
         <div class="flex gap-2 items-center">
             <input wire:model.debounce.300ms="search" placeholder="Search by Title" class="rounded-lg p-1 px-2 text-sm border" />
@@ -140,51 +153,49 @@
                         @enderror
                     </div>
 
-            @error('status')
-            <span class="text-red-600 text-sm">{{ $message }}</span>
-            @enderror
+                    @error('status')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
 
-            <div class="flex justify-between">
-                <div class="w-full mr-2">
-                    <select wire:model="status" class="w-full mr-2 border border-gray-300 rounded px-3 py-2 text-gray-800">
-                        <option value="">Select Type </option>
-                        <option value="ui">UI</option>
-                        <option value="core">Core</option>
-                        <option value="core">Bug</option>
-                    </select>
-                </div>
+                    <div class="flex justify-between">
+                        <div class="w-full mr-2">
+                            <select wire:model="status" class="w-full mr-2 border border-gray-300 rounded px-3 py-2 text-gray-800">
+                                <option value="">Select Type </option>
+                                <option value="ui">UI</option>
+                                <option value="core">Core</option>
+                                <option value="core">Bug</option>
+                            </select>
+                        </div>
 
-                <!-- Buttons (50%) -->
-                <div class="w-1/2 flex justify-end">
-                    <button type="button" wire:click="handleCancle" class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">
-                        Cancel
-                    </button>
+                        <div class="w-1/2 flex justify-end">
+                            <button type="button" wire:click="handleCancle" class="bg-gray-300 text-gray-800 px-4 py-2 rounded mr-2">Cancel
+                            </button>
 
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-                        <span wire:loading wire:target="save">Saving...</span>
-                        <span wire:loading.remove wire:target="save">Save</span>
-                    </button>
-                </div>
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+                                <span wire:loading wire:target="save">Saving...</span>
+                                <span wire:loading.remove wire:target="save">Save</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            </form>
         </div>
     </div>
-</div>
 
-@include('livewire.components.toast')
+    @include('livewire.components.toast')
 
-@script
-<script>
-    $js('copy', (data) => {
-        const textToCopy = data;
-        navigator.clipboard.writeText(textToCopy)
-            .then(() => {})
-            .catch(err => {
-                console.error('Failed to copy text: ', err);
-                alert('Failed to copy text.');
-            });
-    });
+    @script
+    <script>
+        $js('copy', (data) => {
+            const textToCopy = data;
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {})
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy text.');
+                });
+        });
 
-</script>
-@endscript
+    </script>
+    @endscript
 </div>
