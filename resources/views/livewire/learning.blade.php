@@ -54,7 +54,6 @@
                 <img class="size-7 rounded-full border-3 border-white -translate-x-2" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=50" alt="userImage2">
                 <img class="size-7 rounded-full border-3 border-white -translate-x-4" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=50&h=50&auto=format&fit=crop" alt="userImage3">
             </div>
-            <pre class="">Pramod, </pre>
             @foreach($this->userAssignToThisProject as $user)
             <pre>{{ $user->name }}, </pre>
             @endforeach
