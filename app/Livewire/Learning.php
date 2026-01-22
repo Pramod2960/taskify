@@ -128,15 +128,20 @@ class Learning extends Component
     public function render()
     {
         try {
-            $query = ModelsLearning::orderByRaw("
-            CASE 
+            $userId = auth()->id();
+
+            $query = ModelsLearning::where('project_id', $this->project_id)
+                ->orderByRaw("
+            CASE
+            WHEN assigned_to = ? THEN 0
+            WHEN assigned_to = null THEN 3
             WHEN status = 'core' THEN 1
             WHEN status = 'ui' THEN 2
-            WHEN status = 'new' THEN 3
-            WHEN status = 'completed' THEN 4 
-            ELSE 0 END ASC")
-                ->orderBy('updated_at', 'asc')
-                ->where('project_id',  $this->project_id);
+            WHEN status = 'completed' THEN 5
+            ELSE 4
+            END
+            ", [$userId])
+                ->orderBy('updated_at', 'asc');
 
             if (!empty($this->search)) {
                 $query->where(function ($q) {

@@ -80,7 +80,7 @@
                 <tr>
                     <th class="px-4 py-2 border">#</th>
                     <th class="px-4 py-2 border">Title</th>
-                    <th class="px-4 py-2 border max-w-[180px]">Status</th>
+                    <th class="px-4 py-2 border max-w-[180px]">Type</th>
                     <th class="px-4 py-2 border max-w-[180px]">Owner</th>
                     {{-- <th class="px-4 py-2 border">Category</th> --}}
                     <th class="px-4 py-2 border min-w-[180px]">Actions</th>
