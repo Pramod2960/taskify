@@ -29,7 +29,7 @@ class ClientProjects extends Component
         if (auth()->user()->hasRole('superadmin')) {
             $this->projects = ClientProjectModal::withCount([
                 'learnings as new_learnings_count' => fn($q) =>
-                $q->where('status', '!=', 'Completed')
+                $q->where('status', '!=', 'completed')
             ])->get();
 
             return;
@@ -38,7 +38,7 @@ class ClientProjects extends Component
             ->clientProjects()
             ->withCount([
                 'learnings as new_learnings_count' => fn($q) =>
-                $q->where('status', '!=', 'Completed')
+                $q->where('status', '!=', 'completed')
             ])
             ->get();
     }
