@@ -11,7 +11,6 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class ClientProjects extends Component
 {
-
     public $projects;
     public bool $showModal = false;
 
