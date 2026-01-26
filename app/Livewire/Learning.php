@@ -163,7 +163,7 @@ class Learning extends Component
             // $newCount = $queryNew->where('status', 'new')->count();
             // $pagination = max(20, $newCount);
 
-            $tasks = $query->paginate(20);
+            $tasks = $query->paginate(50);
             return view('livewire.learning', [
                 'tasks' => $tasks,
             ]);
