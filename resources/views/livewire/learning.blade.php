@@ -68,11 +68,12 @@
             <button x-on:click="$wire.showModal = true" class="bg-blue-600 text-white px-4 py-1 rounded">
                 Add New Task
             </button>
+
             @hasanyrole('superadmin')
             <button wire:click="deleteProject" wire:confirm="Are you sure you want to delete this project?" class="bg-rose-600 text-white px-4 py-1 rounded">
                 Delete
             </button>
-            @endhasallrole
+            @endhasanyrole
         </div>
     </div>
 
