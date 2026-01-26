@@ -131,7 +131,7 @@ class Learning extends Component
             $userId = auth()->id();
 
             $query = ModelsLearning::where('project_id', $this->project_id)
-    ->orderByRaw("
+                ->orderByRaw("
         CASE
             WHEN status = 'completed' THEN 3
             WHEN assigned_to = ? THEN 0
@@ -169,6 +169,21 @@ class Learning extends Component
             ]);
         } catch (\Throwable $th) {
             dd($th);
+        }
+    }
+
+    public function deleteProject()
+    {
+        try {
+            $project = ClientProject::with('learnings')->findOrFail($this->project_id);
+            $project->learnings()->delete();
+            $project->delete();
+            $this->showToast("Project deleted successfully", "success");
+
+            return redirect()->route('learning.portal');
+        } catch (\Throwable $th) {
+            $this->showToast("Unable to delete project", "error");
+            $this->js('hideToast');
         }
     }
 }
