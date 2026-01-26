@@ -131,16 +131,20 @@ class Learning extends Component
             $userId = auth()->id();
 
             $query = ModelsLearning::where('project_id', $this->project_id)
-                ->orderByRaw("
+    ->orderByRaw("
         CASE
-            WHEN status = 'completed' THEN 5
+            WHEN status = 'completed' THEN 3
             WHEN assigned_to = ? THEN 0
-            WHEN status = 'core' THEN 1
-            WHEN status = 'ui' THEN 2
-            WHEN assigned_to IS NULL THEN 3
-            ELSE 4
+            WHEN assigned_to IS NULL THEN 1
+            ELSE 2
+        END,
+        CASE
+            WHEN assigned_to = ? AND status = '1' THEN 0
+            WHEN assigned_to = ? AND status = '2' THEN 1
+            WHEN assigned_to = ? AND status = '3' THEN 2
+            ELSE 3
         END
-    ", [$userId])
+    ", [$userId, $userId, $userId, $userId])
                 ->orderBy('updated_at', 'asc');
 
             if (!empty($this->search)) {

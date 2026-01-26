@@ -187,10 +187,10 @@
                     <div class="flex justify-between">
                         <div class="w-full mr-2">
                             <select wire:model="status" class="w-full mr-2 border border-gray-300 rounded px-3 py-2 text-gray-800">
-                                <option value="">Select Type </option>
-                                <option value="ui">UI</option>
-                                <option value="core">Core</option>
-                                <option value="core">Bug</option>
+                                <option value="">Select priority </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
                             </select>
                         </div>
 
