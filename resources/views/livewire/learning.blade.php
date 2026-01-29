@@ -59,6 +59,25 @@
             @endforeach
         </div>
 
+        <div class="flex flex-row gap-2">
+             <div class=" flex gap-2 justify-center items-center rounded-xl border border-red-200 bg-red-100 p-2 shadow-sm">
+                <p class="text-sm font-medium text-red-700">Pending</p>
+                <p class=" text-2xl font-bold text-red-800">
+                    {{ $this->count['not_completed'] }}
+                </p>
+            </div>
+
+            <div class="flex gap-2 justify-center opacity-50 items-center rounded-xl border border-green-200 bg-green-50 p-2 shadow-sm">
+                <p class="text-sm font-medium text-green-700">Completed</p>
+                <p class=" text-2xl font-bold text-green-800">
+                    {{ $this->count['completed'] }}
+                </p>
+            </div>
+
+           
+        </div>
+
+
         <div class="flex gap-2 items-center">
             <input wire:model.debounce.300ms="search" placeholder="Search by Title" class="rounded-lg p-1 px-2 text-sm border" />
 

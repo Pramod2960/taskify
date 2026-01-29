@@ -8,6 +8,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use App\Models\Learning as ModelsLearning;
+use Livewire\Attributes\Computed;
 
 #[Title('Taskify')]
 #[Layout('layouts.app')]
@@ -22,6 +23,7 @@ class Learning extends Component
     public $showModal = false;
     public $showToast = false,  $toastMessage = '', $toastType;
     public $assigned_to, $userAssignToThisProject = [];
+    public $pendingTaskCount, $completedTaskCount;
 
     public $title, $category, $status;
 
@@ -44,6 +46,14 @@ class Learning extends Component
         $this->assigned_to = auth()->id();
     }
 
+    #[Computed]
+    public function count()
+    {
+        return [
+            'completed' => ModelsLearning::where('status', 'completed')->where('project_id',$this->project_id)->count(),
+            'not_completed' => ModelsLearning::where('status', '!=', 'completed')->where('project_id',$this->project_id)->count(),
+        ];
+    }
     public function markAsComplete($id)
     {
         if ($id == null)
