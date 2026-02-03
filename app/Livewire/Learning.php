@@ -26,6 +26,7 @@ class Learning extends Component
     public $pendingTaskCount, $completedTaskCount;
 
     public $title, $category, $status;
+    public $selectedTask = null;
 
     protected $rules = [
         'title' => 'required|string',
@@ -50,8 +51,8 @@ class Learning extends Component
     public function count()
     {
         return [
-            'completed' => ModelsLearning::where('status', 'completed')->where('project_id',$this->project_id)->count(),
-            'not_completed' => ModelsLearning::where('status', '!=', 'completed')->where('project_id',$this->project_id)->count(),
+            'completed' => ModelsLearning::where('status', 'completed')->where('project_id', $this->project_id)->count(),
+            'not_completed' => ModelsLearning::where('status', '!=', 'completed')->where('project_id', $this->project_id)->count(),
         ];
     }
     public function markAsComplete($id)
@@ -74,7 +75,9 @@ class Learning extends Component
             $task = ModelsLearning::find($id);
             $this->title = $task->title;
             $this->category = $task->category;
+            $this->status = $task->status;
             $this->showModal = true;
+            $this->selectedTask = $task;
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -83,19 +86,38 @@ class Learning extends Component
     public function save()
     {
         $validated = $this->validate();
-        try {
-            ModelsLearning::create([
-                'title'      => $this->title,
-                'project_id' => $this->project_id,
-                'status'     => $this->status,
-                'assigned_to' => $this->assigned_to,
-            ]);
-            // $this->reset(['title', 'category']);
-            $this->showModal = false;
-            $this->assigned_to = auth()->id();
 
-            $this->showToast("Task created successfully!", "success");
-            $this->js('hideToast');
+        try {
+            if ($this->selectedTask) {
+
+                $this->selectedTask->title = $this->title;
+                $this->selectedTask->project_id = $this->project_id;
+                $this->selectedTask->status = $this->status;
+                $this->selectedTask->assigned_to =  $this->assigned_to;
+                $this->selectedTask->save();
+
+                $this->selectedTask = null;
+                $this->handleCancle();
+                
+                $this->showToast("Task Updated successfully!", "success");
+            } else if ($this->selectedTask === null) {
+                ModelsLearning::create([
+                    'title'      => $this->title,
+                    'project_id' => $this->project_id,
+                    'status'     => $this->status,
+                    'assigned_to' => $this->assigned_to,
+                ]);
+                // $this->reset(['title', 'category']);
+                $this->showModal = false;
+                $this->assigned_to = auth()->id();
+
+                $this->title = "";
+                $this->category = "";
+                $this->status = "";
+
+                $this->showToast("Task created successfully!", "success");
+                $this->js('hideToast');
+            }
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -132,6 +154,10 @@ class Learning extends Component
     {
         $this->title = "";
         $this->category = "";
+        $this->status = "";
+        $this->assigned_to = auth()->id();
+
+        $this->selectedTask = null;
         $this->showModal = false;
     }
 

@@ -73,21 +73,17 @@
                     {{ $this->count['completed'] }}
                 </p>
             </div>
-
-           
         </div>
 
 
         <div class="flex gap-2 items-center">
             <input wire:model.debounce.300ms="search" placeholder="Search by Title" class="rounded-lg p-1 px-2 text-sm border" />
-
             <button wire:click="clearFilter" class="bg-slate-300 text-black px-4 py-1 rounded">
                 Clear Filter
             </button>
             <button x-on:click="$wire.showModal = true" class="bg-blue-600 text-white px-4 py-1 rounded">
                 Add New Task
             </button>
-
             @hasanyrole('superadmin')
             <button wire:click="deleteProject" wire:confirm="Are you sure you want to delete this project?" class="bg-rose-600 text-white px-4 py-1 rounded">
                 Delete
@@ -117,7 +113,7 @@
                     <td class="px-4 py-2 border text-center">{{ $loop->iteration }}</td>
                     <td class="px-4 py-2 border text-center flex justify-between">
                         <div>
-                            <a wire:click="linkClick({{ $task->id }})" class="no-underline hover:underline {{ $task->status === 'completed' ? 'text-gray-500' : 'text-blue-600' }}">
+                            <a wire:click="linkClick({{ $task->id }})" class="no-underline hover:underline cursor-pointer {{ $task->status === 'completed' ? 'text-gray-500' : 'text-blue-600' }}">
                                 {{ $task->title }}
                             </a>
                         </div>
@@ -177,7 +173,7 @@
     <div wire:show="showModal">
         <div x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div class="bg-white w-full max-w-lg rounded-lg shadow-lg p-6 relative">
-                <button class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl font-bold" wire:click="$set('showModal',false)">&times;</button>
+                <button class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl font-bold" wire:click="handleCancle">&times;</button>
 
                 <h2 class="text-lg font-semibold mb-4">Add New Task</h2>
 
