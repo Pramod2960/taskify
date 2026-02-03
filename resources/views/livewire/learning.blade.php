@@ -44,8 +44,7 @@
     </nav>
 
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-semibold"> Project :
-            <span class="text-blue-600 font-bold">{{ $project_name }}</span>
+        <h2 class="text-xl font-semibold"><span class="text-blue-600 font-bold">{{ $project_name }}</span>
         </h2>
 
         <div class="flex flex-wrap items-center justify-center p-1.5 rounded-full text-xs">
