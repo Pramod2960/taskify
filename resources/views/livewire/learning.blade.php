@@ -149,7 +149,7 @@
                     </td> --}}
                     <td class="px-4 py-1 border text-center text-sm">
                         @if ($task->status !== 'completed')
-                        <button wire:click="markAsComplete({{ $task->id }})" class="px-3 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300 transition">
+                        <button wire:confirm="Are you sure you want to complete this post?" wire:click="markAsComplete({{ $task->id }})" class="px-3 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300 transition">
                             <span wire:loading wire:target='markAsComplete({{ $task->id }})'>Processing..</span>
                             <span wire:loading.remove wire:target='markAsComplete({{ $task->id }})'>Mark as
                                 Complete</span>
