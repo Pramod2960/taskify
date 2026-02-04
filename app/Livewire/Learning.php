@@ -3,23 +3,27 @@
 namespace App\Livewire;
 
 use App\Models\ClientProject;
+use App\Models\File;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Layout;
 use App\Models\Learning as ModelsLearning;
 use Livewire\Attributes\Computed;
+use Livewire\WithFileUploads;
 
 #[Title('Taskify')]
 #[Layout('layouts.app')]
 class Learning extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public $project_id = null, $project_name;
     // public $tasks;
     public $search;
     public $filter_date;
+
+    public $modaltype = null;
     public $showModal = false;
     public $showToast = false,  $toastMessage = '', $toastType;
     public $assigned_to, $userAssignToThisProject = [];
@@ -28,11 +32,15 @@ class Learning extends Component
     public $title, $category, $status;
     public $selectedTask = null;
 
+
+    public $photo;
+    public $existingFiles = [];
+
     protected $rules = [
         'title' => 'required|string',
-        // 'category' => 'required|string',
         'status' => 'required|string',
-        'assigned_to' => 'required|exists:users,id'
+        'assigned_to' => 'required|exists:users,id',
+        'photo' => 'nullable|image|max:10240', // 10MB
     ];
 
     public function mount($project)
@@ -69,13 +77,23 @@ class Learning extends Component
         }
     }
 
+    public function handleAddNewTask()
+    {
+        $this->modaltype = "add";
+        $this->showModal = true;
+    }
+
     public function linkClick($id)
     {
+        $this->modaltype = "view";
         try {
-            $task = ModelsLearning::find($id);
+            $task = ModelsLearning::with('files')->findOrFail($id);
+
             $this->title = $task->title;
             $this->category = $task->category;
             $this->status = $task->status;
+            $this->existingFiles = $task->files;
+
             $this->showModal = true;
             $this->selectedTask = $task;
         } catch (\Throwable $th) {
@@ -98,10 +116,10 @@ class Learning extends Component
 
                 $this->selectedTask = null;
                 $this->handleCancle();
-                
+
                 $this->showToast("Task Updated successfully!", "success");
             } else if ($this->selectedTask === null) {
-                ModelsLearning::create([
+                $task = ModelsLearning::create([
                     'title'      => $this->title,
                     'project_id' => $this->project_id,
                     'status'     => $this->status,
@@ -109,11 +127,24 @@ class Learning extends Component
                 ]);
                 // $this->reset(['title', 'category']);
                 $this->showModal = false;
+
                 $this->assigned_to = auth()->id();
+
+                if ($this->photo) {
+                    $path = $this->photo->store('learning-files', 'public');
+                    File::create([
+                        'learning_id' => $task->id,
+                        'file_name'   => $this->photo->getClientOriginalName(),
+                        'file_path'   => $path,
+                        'mime_type'   => $this->photo->getMimeType(),
+                        'file_size'   => $this->photo->getSize(),
+                    ]);
+                }
 
                 $this->title = "";
                 $this->category = "";
                 $this->status = "";
+                $this->photo = null;
 
                 $this->showToast("Task created successfully!", "success");
                 $this->js('hideToast');
@@ -152,6 +183,7 @@ class Learning extends Component
 
     public function handleCancle()
     {
+        $this->modaltype = null;
         $this->title = "";
         $this->category = "";
         $this->status = "";

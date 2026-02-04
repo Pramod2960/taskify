@@ -59,7 +59,7 @@
         </div>
 
         <div class="flex flex-row gap-2">
-             <div class=" flex gap-2 justify-center items-center rounded-xl border border-red-200 bg-red-100 p-2 shadow-sm">
+            <div class=" flex gap-2 justify-center items-center rounded-xl border border-red-200 bg-red-100 p-2 shadow-sm">
                 <p class="text-sm font-medium text-red-700">Pending</p>
                 <p class=" text-2xl font-bold text-red-800">
                     {{ $this->count['not_completed'] }}
@@ -80,7 +80,7 @@
             <button wire:click="clearFilter" class="bg-slate-300 text-black px-4 py-1 rounded">
                 Clear Filter
             </button>
-            <button x-on:click="$wire.showModal = true" class="bg-blue-600 text-white px-4 py-1 rounded">
+            <button wire:click="handleAddNewTask" class="bg-blue-600 text-white px-4 py-1 rounded">
                 Add New Task
             </button>
             @hasanyrole('superadmin')
@@ -203,6 +203,54 @@
                         <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
+
+
+                    @if($modaltype === "view")
+                    @if(count($existingFiles))
+                    <div class="mt-4">
+                        <h4 class="text-sm font-semibold mb-2">Attached Files</h4>
+
+                        <ul class="space-y-2">
+                            @foreach($existingFiles as $file)
+                            <li class="flex items-center justify-between bg-gray-100 p-2 rounded">
+                                <div class="text-sm">
+                                    📎 {{ $file->file_name }}
+                                    <span class="text-xs text-gray-500">
+                                        ({{ number_format($file->file_size / 1024, 1) }} KB)
+                                    </span>
+                                </div>
+
+                                <a href="{{ asset('storage/'.$file->file_path) }}" target="_blank" class="text-blue-600 text-xs hover:underline">
+                                    View
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                    @endif
+
+
+                    @if($modaltype === "add")
+                    <div>
+                        @if ($photo)
+                        <img class="h-20 w-20" src="{{ $photo->temporaryUrl() }}">
+                        @endif
+                        <label class="block text-sm font-medium mb-1">Upload File</label>
+
+                        <input type="file" wire:model="photo" class="w-full border rounded px-3 py-2" />
+
+                        <div wire:loading wire:target="photo" class="text-xs text-gray-500">
+                            Uploading...
+                        </div>
+
+                        @error('photo')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    @endif
+
+
 
                     <div class="flex justify-between">
                         <div class="w-full mr-2">

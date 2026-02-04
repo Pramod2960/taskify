@@ -23,4 +23,9 @@ class Learning extends Model
     {
         return $this->belongsTo(User::class, 'assigned_to');
     }
+
+    public function files()
+    {
+        return $this->hasMany(\App\Models\File::class, 'learning_id');
+    }
 }
