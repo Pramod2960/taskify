@@ -79,6 +79,7 @@ class Learning extends Component
 
     public function handleAddNewTask()
     {
+        $this->photo = null;
         $this->modaltype = "add";
         $this->showModal = true;
     }
