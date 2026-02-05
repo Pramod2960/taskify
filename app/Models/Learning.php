@@ -11,7 +11,8 @@ class Learning extends Model
         'title',
         'status',
         'category',
-        'assigned_to'
+        'assigned_to',
+        'task_code'
     ];
 
     public function project()
@@ -27,5 +28,22 @@ class Learning extends Model
     public function files()
     {
         return $this->hasMany(\App\Models\File::class, 'learning_id');
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($learning) {
+            $lastTask = self::whereNotNull('task_code')
+                ->orderByDesc('id')
+                ->first();
+
+            $nextNumber = 1;
+
+            if ($lastTask && preg_match('/T-(\d+)/', $lastTask->task_code, $matches)) {
+                $nextNumber = intval($matches[1]) + 1;
+            }
+
+            $learning->task_code = 'T-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        });
     }
 }

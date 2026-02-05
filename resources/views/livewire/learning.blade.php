@@ -109,7 +109,7 @@
             <tbody>
                 @forelse ($tasks as $task)
                 <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-2 border text-center">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-2 border text-center">{{ $task->task_code ?? "-" }}</td>
                     <td class="px-4 py-2 border text-center flex justify-between">
                         <div>
                             <a wire:click="linkClick({{ $task->id }})" class="no-underline hover:underline cursor-pointer {{ $task->status === 'completed' ? 'text-gray-500' : 'text-blue-600' }}">

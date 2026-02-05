@@ -63,6 +63,7 @@ class Learning extends Component
             'not_completed' => ModelsLearning::where('status', '!=', 'completed')->where('project_id', $this->project_id)->count(),
         ];
     }
+
     public function markAsComplete($id)
     {
         if ($id == null)
