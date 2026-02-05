@@ -91,38 +91,39 @@
         </div>
     </div>
 
-    <div class="overflow-x-auto">
+    <div class="w-full overflow-x-auto">
         <div class="mb-4 text-white">
             {{ $tasks->links() }}
         </div>
-        <table class="min-w-full border border-gray-200 table-auto">
+        <table class="w-full border border-gray-200 table-auto">
             <thead class="bg-gray-100">
                 <tr>
-                    <th class="px-4 py-2  min-w-[100px] max-w-[100px]">#</th>
-                    <th class="px-4 py-2">Title</th>
-                    <th class="px-4 py-2  max-w-[180px]">Type</th>
-                    <th class="px-4 py-2  max-w-[180px]">Owner</th>
-                    {{-- <th class="px-4 py-2 border">Category</th> --}}
-                    <th class="px-4 py-2 min-w-[180px]">Actions</th>
+                    <th class="px-4 py-2 max-w-[120px]">#</th>
+                    <th class="px-4 py-2 w-auto">Title</th>
+                    <th class="px-4 py-2 max-w-[180px]">Type</th>
+                    <th class="px-4 py-2 max-w-[180px]">Owner</th>
+                    <th class="px-4 py-2 max-w-[180px]">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($tasks as $task)
                 <tr class="hover:bg-gray-50 border-b items-start">
-                    <td class="px-4 py-2  text-center">{{ $task->task_code ?? "-" }}asdadasdadsadasd</td>
-                    <td class="px-4 py-2 text-center flex justify-between truncate">
-                        <div class="truncate">
-                            <a wire:click="linkClick({{ $task->id }})" class="no-underline hover:underline cursor-pointer {{ $task->status === 'completed' ? 'text-gray-500' : 'text-blue-600' }}">
-                                {{ $task->title }}
-                            </a>
-                        </div>
-                        <div>
-                            <button wire:click="copy('{{ $task->title }}')" class=" opacity-50">
-                                <img src="{{ asset('icons/copy.svg') }}" alt="Copy" class="w-4 h-4" />
-                            </button>
+                    <td class="px-4 py-2  text-center max-w-20">{{ $task->task_code ?? "-" }}</td>
+                    <td class="px-4 py-2  max-w-96">
+                        <div class="flex items-center justify-between gap-2 w-full">
+                            <div class="">
+                                <a wire:click="linkClick({{ $task->id }})" class="w-full no-underline hover:underline cursor-pointer {{ $task->status === 'completed' ? 'text-gray-500' : 'text-blue-600' }}">
+                                    {{ $task->title }}
+                                </a>
+                            </div>
+                            <div class="flex max-w-10 ">
+                                <button wire:click="copy('{{ $task->title }}')" class="opacity-50 shrink-0">
+                                    <img src="{{ asset('icons/copy.svg') }}" alt="Copy" class="w-4 h-4" />
+                                </button>
+                            </div>
                         </div>
                     </td>
-                    <td class="px-4 py-1  text-center text-sm">
+                    <td class="px-4 py-1  text-center text-sm max-w-16">
                         <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full uppercase
                                 @if (strtolower($task->status) === 'core') text-green-500 bg-green-100
                                 @elseif(strtolower($task->status) === 'bug') text-rose-500 bg-rose-100
@@ -132,7 +133,7 @@
                             {{ $task->status ?? '—' }}
                         </span>
                     </td>
-                    <td class="text-center  text-sm">
+                    <td class="text-center text-sm max-w-16">
                         <div class="items-center">
                             @if($task->assigned_to === auth()->id())
                             <span class="text-xs text-green-600 font-semibold">You</span>
@@ -147,12 +148,12 @@
                             class="px-4 py-1 border text-center text-sm {{ $task->status === 'completed' ? 'text-gray-500' : '' }}">
                     {{ $task->category ?? '—' }}
                     </td> --}}
-                    <td class="px-4 py-1  text-center text-sm">
+                    <td class="px-4 py-1  text-center text-sm max-w-20">
                         @if ($task->status !== 'completed')
                         <button wire:confirm="Are you sure you want to complete this post?" wire:click="markAsComplete({{ $task->id }})" class="px-3 py-1 text-sm font-medium text-gray-500 bg-gray-200 rounded-md hover:bg-gray-300 transition">
                             <span wire:loading wire:target='markAsComplete({{ $task->id }})'>Processing..</span>
-                            <span wire:loading.remove wire:target='markAsComplete({{ $task->id }})'>Mark as
-                                Complete</span>
+                            <span wire:loading.remove wire:target='markAsComplete({{ $task->id }})'>Mark
+                                Comp</span>
                         </button>
                         @endif
                     </td>
