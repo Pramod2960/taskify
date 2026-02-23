@@ -52,9 +52,6 @@ class TaskList extends Component
                         ->orWhere('body', 'like', '%' . $this->search . '%')
                         ->orWhereHas('project', function ($q) {
                             $q->where('name', 'like', '%' . $this->search . '%');
-                        })
-                        ->orWhereHas('assigner', function ($q) {
-                            $q->where('name', 'like', '%' . $this->search . '%');
                         });
                 });
             }
